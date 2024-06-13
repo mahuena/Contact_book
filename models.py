@@ -7,7 +7,8 @@ class Contact(db.Model):
     name = db.Column(db.String(100), nullable=False, unique=True)
     phoneNumber = db.Column(db.Integer, nullable=False, unique=True)
     address = db.Column(db.String(100), nullable=False, unique=True)
-    contactImg_url = db.Column(db.String(200), nullable=True, unique=True)
+    # gender = db.Column(db.String(10), nullable=False, unique=True)
+    # contactImg_url = db.Column(db.String(200), nullable=True, unique=True)
 
 #     create a method to convert the attributes of the class to json
     def to_json(self):
@@ -16,5 +17,6 @@ class Contact(db.Model):
             "name": self.name,
             "phoneNumber": self.phoneNumber,
             "address": self.address,
-            "imgUrl": self.contactImg_url
+            # "gender": self.gender,
+            # "img_url": self.contactImg_url
         }
