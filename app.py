@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+# from flask_migrate import Migrate
 
 # create an instance of the Flask class
 app = Flask(__name__)
@@ -12,6 +13,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///address_book.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+# # migrate changes to db
+# migrate = Migrate(app, db)
 
 # import the routes (way of importing when a python file doesn't have a class to import)
 import routes
