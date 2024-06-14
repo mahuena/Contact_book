@@ -1,21 +1,27 @@
-import { BiAddToQueue } from "react-icons/bi";
-// @ts-ignore
-import {Button, Modal, ModalOverlay, useDisclosure, ModalContent, ModalHeader, ModalBody, ModalCloseButton,
-    Flex, FormControl, FormLabel, Input, Radio, RadioGroup, ModalFooter} from "@chakra-ui/react";
+import {
+    Button, Modal, ModalOverlay, useDisclosure, ModalContent, ModalHeader, ModalBody, ModalCloseButton,
+    FormControl, FormLabel, Input, ModalFooter, IconButton
+} from "@chakra-ui/react";
+import {CiEdit} from "react-icons/ci";
 
-export const CreateContactModal = () => {
+export const EditModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <>
-            <Button onClick={onOpen}>
-                <BiAddToQueue size={20} />
-            </Button>
+            <IconButton
+                variant='ghost'
+                colorScheme='green'
+                size={'sm'}
+                aria-label={'See the info'}
+                icon={<CiEdit size={20} />}
+                onClick={onOpen}
+            />
 
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
-                >
+            >
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>New Contact</ModalHeader>
@@ -46,18 +52,11 @@ export const CreateContactModal = () => {
                                 placeholder='Email'
                             />
                         </FormControl>
-
-                        <RadioGroup mt={4}>
-                            <Flex gap={5}>
-                                <Radio value='Male'>Male</Radio>
-                                <Radio value='Female'>Female</Radio>
-                            </Flex>
-                        </RadioGroup>
                     </ModalBody>
 
                     <ModalFooter>
                         <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            Save
+                            Update
                         </Button>
                         <Button onClick={onClose}>Cancel</Button>
                     </ModalFooter>
