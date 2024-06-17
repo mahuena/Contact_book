@@ -5,7 +5,7 @@ from app import db
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    phoneNumber = db.Column(db.Integer, nullable=False)
+    phoneNumber = db.Column(db.String(10), nullable=False)
     address = db.Column(db.String(100), nullable=False)
     gender = db.Column(db.String(10), nullable=False, default='Not specified')
     contactImg_url = db.Column(db.String(200), nullable=True)

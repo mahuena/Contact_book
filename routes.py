@@ -33,23 +33,9 @@ def create_contact():
         phone = data.get('phoneNumber')
         address = data.get('address')
         gender = data.get('gender')
-        contactImg_url = data.get('contactImg_url')
-        #
-        # # fetch avatar image based on gender
-        # if gender == "male":
-        #     img_url = "https://avatar.iran.liara.run/public/boy?username={name}"
-        # elif gender == "female":
-        #     img_url = "https://avatar.iran.liara.run/public/girl?username={name}"
-        # else:
-        #     img_url = None
-
+        img_url = data.get('contactImg_url')
         # create a new contact
-        new_contact = Contact(name=name,
-                              phoneNumber=phone,
-                              address=address,
-                              gender=gender,
-                              contactImg_url=contactImg_url
-                              )
+        new_contact = Contact(name=name, phoneNumber=phone, address=address, gender=gender, contactImg_url=img_url)
 
         # add and commit new contact to db
         db.session.add(new_contact)
