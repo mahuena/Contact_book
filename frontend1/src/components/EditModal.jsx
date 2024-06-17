@@ -44,7 +44,6 @@ export const EditModal = ({user, getUsers}) => {
             toast({title: 'Contact updated', status: 'success',});
             onClose();
             getUsers();
-            setInputs({name: "", phoneNumber: "", address: "", gender: "", contactImg_url: image,});
         }
         catch (error) {}
         finally {setIsLoading(false);}
@@ -58,7 +57,7 @@ export const EditModal = ({user, getUsers}) => {
                 <ModalOverlay />
                 <form onSubmit={handleEditContact}>
                     <ModalContent>
-                        <ModalHeader>New Contact</ModalHeader>
+                        <ModalHeader>Contact update</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody pb={'6'}>
                             <Flex style={{flexDirection: 'column', position: 'relative', width: '150px', height: '150px', margin: 'auto',}}>
