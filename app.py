@@ -7,6 +7,9 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 CORS(app)
 
+# or you can restrict it to specific origins and routes
+cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+
 # configure the database
 # the database is a sqlite database (C-language library)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///address_book.db'

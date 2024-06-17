@@ -26,13 +26,14 @@ def create_contact():
         # make the fields required
         required_fields = ["name", "phoneNumber", "address"]
         for field in required_fields:
-            if field not in data:
+            if field not in data or not data.get(field):
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
         name = data.get('name')
         phone = data.get('phoneNumber')
         address = data.get('address')
-        # gender = data.get('gender')
+        gender = data.get('gender')
+        contactImg_url = data.get('contactImg_url')
         #
         # # fetch avatar image based on gender
         # if gender == "male":
@@ -46,8 +47,8 @@ def create_contact():
         new_contact = Contact(name=name,
                               phoneNumber=phone,
                               address=address,
-                              # gender=gender,
-                              # contactImg_url=img_url
+                              gender=gender,
+                              contactImg_url=contactImg_url
                               )
 
         # add and commit new contact to db
@@ -55,7 +56,7 @@ def create_contact():
         db.session.commit()
 
         # jsonify a successful message and return it  / 201 just means a resource has been created
-        return jsonify({"message": "Contact added successfully"}), 201
+        return jsonify(new_contact.to_json()), 201
     except Exception as e:
         # rollback any pending changes to the database /common practice to maintain data consistency in the database
         db.session.rollback()
@@ -99,6 +100,8 @@ def update_contact(id):
         contact.name = data.get("name", contact.name)
         contact.phoneNumber = data.get("phoneNumber", contact.phoneNumber)
         contact.address = data.get("address", contact.address)
+        contact.gender = data.get("gender", contact.gender)
+        contact.contactImg_url = data.get("contactImg_url", contact.contactImg_url)
 
         # commit the changes to the database
         db.session.commit()
