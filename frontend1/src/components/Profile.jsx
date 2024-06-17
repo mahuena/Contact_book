@@ -1,4 +1,4 @@
-import {useState} from "react";
+
 import {Flex, IconButton, Image, Input} from "@chakra-ui/react";
 import {CiEdit, CiTrash} from "react-icons/ci";
 
