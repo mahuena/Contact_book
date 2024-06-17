@@ -13,23 +13,15 @@ export const ContactGrid = ({users, setUsers, getUsers}) => {
 
     return (
         <>
-            <TableContainer style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: '100%',
-
-            }}>
+            <TableContainer style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%',}}>
                 <Table size={'md'} variant='simple'>
                     <Thead>
                         <Tr>
                             <Th>Profile</Th>
                             <Th>Name</Th>
-                            <Th>Phone</Th>
-                            <Th>Email</Th>
-                            <Th>Gender</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>Phone</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>Email</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>Gender</Th>
                             <Th>Action</Th>
                         </Tr>
                     </Thead>
