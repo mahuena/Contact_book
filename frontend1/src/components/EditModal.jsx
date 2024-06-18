@@ -18,13 +18,13 @@ export const EditModal = ({user, getUsers}) => {
         contactImg_url: user.contactImg_url
     });
 
-    const handleChange = (event) => {
+    const handleChangeImg = (event) => {
         const newImage = URL.createObjectURL(event.target.files[0]);
         setImage(newImage);
         setInputs({...inputs, contactImg_url: newImage});
     };
 
-    const handleDelete = () => {
+    const handleDeleteImg = () => {
         setImage(defaultImage);
         setInputs({...inputs, contactImg_url: defaultImage});
     };
@@ -61,13 +61,13 @@ export const EditModal = ({user, getUsers}) => {
                         <ModalCloseButton />
                         <ModalBody pb={'6'}>
                             <Flex style={{flexDirection: 'column', position: 'relative', width: '150px', height: '150px', margin: 'auto',}}>
-                                <Input type="file" id="fileInput" style={{display: 'none'}} onChange={handleChange}/>
-                                <Image id="output" src={image} alt="Profile" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%', margin: 'auto'}}/>
+                                <Input type="file" id="fileInput" style={{display: 'none'}} onChange={handleChangeImg}/>
+                                <Image id="output" src={inputs.contactImg_url} alt="Profile" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%', margin: 'auto'}}/>
                                 <Flex gap={3} my={'10px'} m={'auto'}>
                                     <IconButton variant='ghost' colorScheme='green' size={'sm'} aria-label={'See the info'} icon={<CiEdit size={20} />}
                                         onClick={() => document.getElementById('fileInput').click()}
                                     />
-                                    <IconButton variant='ghost' colorScheme='red' size={'sm'} aria-label='See menu' onClick={handleDelete} icon={<CiTrash size={20}/>}/>
+                                    <IconButton variant='ghost' colorScheme='red' size={'sm'} aria-label='See menu' onClick={handleDeleteImg} icon={<CiTrash size={20}/>}/>
                                 </Flex>
                             </Flex>
 
