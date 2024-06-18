@@ -4,8 +4,9 @@ import {useEffect, useState} from "react";
 import {ContactTable} from "./ContactTable.jsx";
 
 // @ts-ignore
-export const ContactGrid = ({users, setUsers, getUsers}) => {
+export const ContactGrid = ({users, setUsers, getUsers, filteredUsers}) => {
     const [isLoading, setIsLoading] = useState(true)
+    const filteredUsersList = filteredUsers();
 
     useEffect(() => {
         getUsers();
@@ -17,21 +18,22 @@ export const ContactGrid = ({users, setUsers, getUsers}) => {
                 <Table size={'md'} variant='simple'>
                     <Thead>
                         <Tr>
-                            <Th>Profile</Th>
-                            <Th>Name</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>Profile</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>Name</Th>
                             <Th display={{base: 'none', md:'table-cell'}}>Phone</Th>
                             <Th display={{base: 'none', md:'table-cell'}}>Email</Th>
                             <Th display={{base: 'none', md:'table-cell'}}>Gender</Th>
-                            <Th>Action</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>Action</Th>
                         </Tr>
                     </Thead>
-                    {users.map((user) => (
-                        <ContactTable  key={user.id} user={user} setUsers={setUsers} getUsers={getUsers}/>
+                    {filteredUsersList.map((user) => (
+                        <ContactTable  key={user.id} user={user} setUsers={setUsers} getUsers={getUsers}
+                        />
                     ))}
                 </Table>
             </TableContainer>
 
-            {isLoading &&users.length === 0 && (
+            {isLoading && users.length === 0 && (
                 <Text fontSize={'xl'} textAlign={'center'} mt={4}> No contacts</Text>
             )}
         </>

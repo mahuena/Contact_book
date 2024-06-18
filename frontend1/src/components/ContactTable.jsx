@@ -3,7 +3,11 @@ import {EditModal} from "./EditModal.jsx";
 import {CiTrash} from "react-icons/ci";
 import { BASE_URL } from "../App.jsx";
 
-export const ContactTable = ({user, setUsers, getUsers}) => {
+export const ContactTable = ({
+                                 user,
+                                 setUsers,
+                                 getUsers,
+}) => {
     const toast = useToast();
 
     const handleDeleteContact = async (id) => {
@@ -31,7 +35,8 @@ export const ContactTable = ({user, setUsers, getUsers}) => {
                     <Td display={{base: 'none', md:'table-cell'}}>{user.gender}</Td>
                     <Td>
                         <Flex>
-                            <EditModal setUsers={setUsers} user={user} getUsers={getUsers} />
+                            <EditModal setUsers={setUsers} user={user} getUsers={getUsers}
+                            />
 
                             <IconButton variant='ghost' colorScheme='red' size={'sm'} aria-label='See menu' onClick={handleDeleteContact} icon={<CiTrash size={20}/>}/>
                         </Flex>
