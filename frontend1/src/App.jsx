@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/NavBar";
 import { ContactGrid } from './components/ContactGrid.jsx';
-import {Stack, Container, useToast, useDisclosure} from '@chakra-ui/react';
+import {Stack, Container, useToast, useDisclosure, Box} from '@chakra-ui/react';
+import {useTranslation} from "react-i18next";
+import {LanguageSelector} from "./components/LanguageSelector.jsx";
 
 export const BASE_URL = 'http://127.0.0.1:5000/api';
 
@@ -10,6 +12,13 @@ function App() {
     const [filteredUserInput, setFilteredUserInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast()
+    const { t, i18n } = useTranslation();
+    const [description, setDescription] = useState(t('description'));
+
+    // useEffect(() => {
+    //     // This will run whenever the language changes
+    //     setDescription(t('description'));
+    // }, [i18n.language]);
     const defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png';
     const [image, setImage] = useState(defaultImage);
     const [inputs, setInputs] = useState({
@@ -47,7 +56,8 @@ function App() {
 
     useEffect(() => {
         getUsers();
-    }, []);
+        setDescription(t('description'));
+    }, [i18n.language]);
 
     const handleCreateContact = async (e) => {
         e.preventDefault();
@@ -79,6 +89,8 @@ function App() {
 
     return (
         <Stack minH={'100vh'} maxW={'1200px'} m={'auto'}>
+            <Box mt={'25px'} align={'end'}><LanguageSelector /></Box>
+
             <Navbar
                 users={users}
                 setUsers={setUsers}
@@ -101,6 +113,10 @@ function App() {
                     filteredUsers={filteredUsers}
                 />
             </Container>
+
+
+
+            <h2 mt={'20px'}>{t("description")}</h2>
         </Stack>
     )
 }
