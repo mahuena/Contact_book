@@ -1,0 +1,16 @@
+.goog-te-combo{
+    /*margin-top: 20px;*/
+    /*margin-left: 20px;*/
+    /*margin-bottom: 20px;*/
+    /*margin-right: 20px;*/
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: transparent;
+    padding: 10px;
+    font-size: 12px;
+    color: #318CE7;
+    height: 50px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+}
