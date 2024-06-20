@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/NavBar";
 import { ContactGrid } from './components/ContactGrid.jsx';
-import {Stack, Container, useToast, useDisclosure, Box} from '@chakra-ui/react';
-import {useTranslation} from "react-i18next";
+import {
+    Stack,
+    Container,
+    useToast,
+    useDisclosure,
+    Box,
+    Select,
+    Menu,
+    MenuButton,
+    Button,
+    MenuList, MenuItem
+} from '@chakra-ui/react';
 import {LanguageSelector} from "./components/LanguageSelector.jsx";
+import {CiGlobe} from "react-icons/ci";
+import GoogleTranslate from "./components/GoogleTranslate";
 
 export const BASE_URL = 'http://127.0.0.1:5000/api';
-
 function App() {
     const [users, setUsers] = useState([]);
     const [filteredUserInput, setFilteredUserInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const toast = useToast()
-    const { t, i18n } = useTranslation();
-    const [description, setDescription] = useState(t('description'));
-
-    // useEffect(() => {
-    //     // This will run whenever the language changes
-    //     setDescription(t('description'));
-    // }, [i18n.language]);
+    const toast = useToast();
     const defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png';
     const [image, setImage] = useState(defaultImage);
     const [inputs, setInputs] = useState({
@@ -56,8 +60,8 @@ function App() {
 
     useEffect(() => {
         getUsers();
-        setDescription(t('description'));
-    }, [i18n.language]);
+        // setDescription(t('description'));
+    }, []);
 
     const handleCreateContact = async (e) => {
         e.preventDefault();
@@ -86,38 +90,36 @@ function App() {
             user.name.toLowerCase().includes(filteredUserInput.toLowerCase())
         );
     };
-
     return (
-        <Stack minH={'100vh'} maxW={'1200px'} m={'auto'}>
-            <Box mt={'25px'} align={'end'}><LanguageSelector /></Box>
+       <>
+           <Stack minH={'100vh'} maxW={'1200px'} m={'auto'}>
 
-            <Navbar
-                users={users}
-                setUsers={setUsers}
-                getUsers={getUsers}
-                handleChangeImg={handleChangeImg}
-                handleDeleteImg={handleDeleteImg}
-                image={image}
-                handleCreateContact={handleCreateContact}
-                isLoading={isLoading}
-                inputs={inputs}
-                setInputs={setInputs}
-                filteredUserInput={filteredUserInput}
-                setFilteredUserInput={setFilteredUserInput}
-            />
-            <Container maxW={{base: '500px', sm: '650px', md: '900px', lg: '1200px'}}>
-                <ContactGrid
-                    users={users}
-                     setUsers={setUsers}
-                     getUsers={getUsers}
-                    filteredUsers={filteredUsers}
-                />
-            </Container>
+               <Box mt={'20px'} align={'end'}><GoogleTranslate/></Box>
 
-
-
-            <h2 mt={'20px'}>{t("description")}</h2>
-        </Stack>
+               <Navbar
+                   users={users}
+                   setUsers={setUsers}
+                   getUsers={getUsers}
+                   handleChangeImg={handleChangeImg}
+                   handleDeleteImg={handleDeleteImg}
+                   image={image}
+                   handleCreateContact={handleCreateContact}
+                   isLoading={isLoading}
+                   inputs={inputs}
+                   setInputs={setInputs}
+                   filteredUserInput={filteredUserInput}
+                   setFilteredUserInput={setFilteredUserInput}
+               />
+               <Container maxW={{base: '500px', sm: '650px', md: '900px', lg: '1200px'}}>
+                   <ContactGrid
+                       users={users}
+                       setUsers={setUsers}
+                       getUsers={getUsers}
+                       filteredUsers={filteredUsers}
+                   />
+               </Container>
+           </Stack>
+       </>
     )
 }
 

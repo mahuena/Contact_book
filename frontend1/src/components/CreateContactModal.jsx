@@ -44,29 +44,29 @@ export const CreateContactModal = ({
 
                             <FormControl isRequired mt={6}>
                                 <FormLabel>Name</FormLabel>
-                                <Input type="text" value={inputs.name} placeholder='Name'
+                                <Input type="text" value={inputs.name} placeholder='name'
                                     onChange={(e) => setInputs({...inputs, name: e.target.value})}
                                 />
                             </FormControl>
 
                             <FormControl isRequired mt={4}>
-                                <FormLabel> Number</FormLabel>
-                                <Input type="number" value={inputs.phoneNumber} placeholder='Phone'
+                                <FormLabel>Phone</FormLabel>
+                                <Input type="number" value={inputs.phoneNumber} placeholder='phoneNumber'
                                     onChange={(e) => setInputs({...inputs, phoneNumber: e.target.value})}
                                 />
                             </FormControl>
 
                             <FormControl isRequired mt={4}>
                                 <FormLabel>Email</FormLabel>
-                                <Input type='email' value={inputs.address} placeholder='email address'
+                                <Input type='email' value={inputs.address} placeholder='email'
                                        onChange={(e) => setInputs({...inputs, address: e.target.value})}
                                 />
                             </FormControl>
 
                             <RadioGroup mt={4} onChange={(value) => setInputs({...inputs, gender: value})}>
                                 <Flex gap={5}>
-                                    <Radio value='Male'>Male</Radio>
-                                    <Radio value='Female'>Female</Radio>
+                                    <Radio value='Male'>male</Radio>
+                                    <Radio value='Female'>female</Radio>
                                 </Flex>
                             </RadioGroup>
                         </ModalBody>

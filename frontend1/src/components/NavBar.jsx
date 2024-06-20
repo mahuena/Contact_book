@@ -15,6 +15,7 @@ const Navbar = ({
     setInputs,
     setFilteredUserInput
 }) => {
+
     return (
         <>
             <Container maxW={'12000px'}>
@@ -26,7 +27,7 @@ const Navbar = ({
                         <Spacer />
                         <Flex gap={4}>
                             <InputGroup>
-                                <Input type='search-bar' placeholder='Search contacts' w={'300px'} _focusVisible={{border: '1px solid #ddd'}}
+                                <Input type='search-bar' placeholder='Search Contacts' w={'300px'} _focusVisible={{border: '1px solid #ddd'}}
                                        onChange={(e) => setFilteredUserInput(e.target.value)}
                                 />
                                 <InputRightElement>

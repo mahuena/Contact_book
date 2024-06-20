@@ -1,26 +1,68 @@
-// import i18n from 'i18next';
-// import LanguageDetector from 'i18next-browser-languagedetector';
-// import { initReactI18next } from 'react-i18next';
-//
-// i18n.use(LanguageDetector).use(initReactI18next).init({
-//     lng: 'en',
-//     debug: true,
-//     interpolation: {
-//     escapeValue: false,
-//     },
-//     resources: {
-//     en: {
-//         translation: {
-//             description: 'We are going to translate this to multiple languages',
-//         }
-//     },
-//     fr: {
-//         translation: {
-//             description: 'Nous allons traduire ceci dans plusieurs langues',
-//         }
-//     },
-//     },
-// });
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
+
+i18n.use(LanguageDetector).use(initReactI18next).init({
+    lng: 'en',
+    debug: true,
+    interpolation: {
+    escapeValue: false,
+    },
+    resources: {
+    en: {
+        translation: {
+            description: 'We are going to translate this to multiple languages',
+            contacts: 'Contacts',
+            searchContacts: "Search contacts",
+            profile: 'Profile',
+            name: 'Name',
+            phone: 'Phone',
+            email: 'Email',
+            gender: 'Gender',
+            action: 'Action',
+            noContacts: 'No contacts found',
+            contactDeleted: 'Contact deleted',
+            errorOccurred: 'An error occurred',
+            seeMenu: 'See menu',
+            male: 'male',
+            female: 'female',
+            newContact: 'New contact',
+            phoneNumber: 'Phone number',
+            save: 'Save',
+            cancel: 'Cancel',
+            updateContact: 'Update contact',
+            update: 'Update',
+            clickToEmail: 'Click to email',
+        }
+    },
+    fr: {
+        translation: {
+            description: 'Nous allons traduire ceci dans plusieurs langues',
+            contacts: "Contacts",
+            searchContacts: "Rechercher des contacts",
+            profile: 'Profil',
+            name: 'Nom',
+            phone: 'Téléphone',
+            email: 'Email',
+            gender: 'Sexe',
+            action: 'Action',
+            noContacts: 'Aucun contact trouvé',
+            contactDeleted: 'Contact supprimé',
+            errorOccurred: 'Une erreur est survenue',
+            seeMenu: 'Voir le menu',
+            male: 'mâle',
+            female: 'femelle',
+            newContact: 'Nouveau contact',
+            phoneNumber: 'Numéro de téléphone',
+            save: 'Sauvegarder',
+            cancel: 'Annuler',
+            updateContact: 'Mettre à jour le contact',
+            update: 'Mettre à jour',
+            clickToEmail: 'Cliquez pour envoyer un email',
+        }
+    },
+    },
+});
 
 // import i18n from 'i18next';
 // import Backend from 'i18next-http-backend';
@@ -77,3 +119,28 @@
 //     // Save the translations on your server
 //     // You need to implement this function
 // }
+//
+// import i18next from "i18next";
+// import HttpBackend from "i18next-http-backend";
+// import LanguageDetector from "i18next-browser-languagedetector";
+// import { initReactI18next } from "react-i18next";
+//
+// // const apiKey = "aEt0ShyAD6Hun7ag5zq35A";
+// // const loadPath = `https://api.i18nexus.com/project_resources/translations/{{lng}}/{{ns}}.json?api_key=${apiKey}`;
+//
+// i18next
+//     .use(HttpBackend)
+//     .use(LanguageDetector)
+//     .use(initReactI18next)
+//     .init({
+//         fallbackLng: "en",
+//
+//         ns: ["default"],
+//         defaultNS: "default",
+//
+//         supportedLngs: ["en","fr","es"],
+//
+//         backend: {
+//             loadPath: "/locales/{{lng}}/{{ns}}.json"
+//         }
+//     })

@@ -1,4 +1,4 @@
-import {Flex, IconButton, Tbody, Td, Tr, useToast, Image} from "@chakra-ui/react";
+import {Flex, IconButton, Tbody, Td, Tr, useToast, Image, Link} from "@chakra-ui/react";
 import {EditModal} from "./EditModal.jsx";
 import {CiTrash} from "react-icons/ci";
 import { BASE_URL } from "../App.jsx";
@@ -16,9 +16,9 @@ export const ContactTable = ({
             const data = await res.json();
             if (!res.ok) {throw new Error(data.error)}
             getUsers();
-            toast({title: 'Contact deleted', status: 'success',})
+            toast({title: 'contactDeleted', status: 'success',})
         }catch (error) {
-            toast({title: 'An error occurred', description: error.message, status: 'error',});
+            toast({title: 'errorOccurred', description: error.message, status: 'error',});
         }
     }
 
@@ -31,14 +31,18 @@ export const ContactTable = ({
                     </Td>
                     <Td>{user.name}</Td>
                     <Td display={{base: 'none', md:'table-cell'}}>{user.phoneNumber}</Td>
-                    <Td display={{base: 'none', md:'table-cell'}}>{user.address}</Td>
+                    <Td display={{base: 'none', md:'table-cell'}} cursor={'pointer'}>
+                        <Link href={`mailto:${user.address}`} isExternal>
+                            {user.address}
+                        </Link>
+                    </Td>
                     <Td display={{base: 'none', md:'table-cell'}}>{user.gender}</Td>
                     <Td>
                         <Flex>
                             <EditModal setUsers={setUsers} user={user} getUsers={getUsers}
                             />
 
-                            <IconButton variant='ghost' colorScheme='red' size={'sm'} aria-label='See menu' onClick={handleDeleteContact} icon={<CiTrash size={20}/>}/>
+                            <IconButton variant='ghost' colorScheme='red' size={'sm'} aria-label='see menu' onClick={handleDeleteContact} icon={<CiTrash size={20}/>}/>
                         </Flex>
                     </Td>
                 </Tr>

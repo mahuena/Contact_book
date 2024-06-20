@@ -57,7 +57,7 @@ export const EditModal = ({user, getUsers}) => {
                 <ModalOverlay />
                 <form onSubmit={handleEditContact}>
                     <ModalContent>
-                        <ModalHeader>Contact update</ModalHeader>
+                        <ModalHeader>Update Contact</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody pb={'6'}>
                             <Flex style={{flexDirection: 'column', position: 'relative', width: '150px', height: '150px', margin: 'auto',}}>
@@ -73,29 +73,29 @@ export const EditModal = ({user, getUsers}) => {
 
                             <FormControl isRequired mt={6}>
                                 <FormLabel>Name</FormLabel>
-                                <Input type="text" placeholder='Name' value={inputs.name}
+                                <Input type="text" placeholder='name' value={inputs.name}
                                     onChange={(e) => setInputs({...inputs, name: e.target.value})}
                                 />
                             </FormControl>
 
                             <FormControl isRequired mt={'4'}>
-                                <FormLabel> Number</FormLabel>
-                                <Input type="number" id="name" placeholder='Phone' value={inputs.phoneNumber}
+                                <FormLabel>Phone</FormLabel>
+                                <Input type="number" id="name" placeholder='phoneNumber' value={inputs.phoneNumber}
                                     onChange={(e) => setInputs({...inputs, phoneNumber: e.target.value})}
                                 />
                             </FormControl>
 
                             <FormControl isRequired mt={'4'}>
                                 <FormLabel> Email</FormLabel>
-                                <Input type="email" id="email" placeholder='Email' value={inputs.address}
+                                <Input type="email" id="email" placeholder='email' value={inputs.address}
                                     onChange={(e) => setInputs({...inputs, address: e.target.value})}
                                 />
                             </FormControl>
 
                             <RadioGroup mt={4} onChange={(value) => setInputs({...inputs, gender: value})}>
                                 <Flex gap={5}>
-                                    <Radio value='Male'>Male</Radio>
-                                    <Radio value='Female'>Female</Radio>
+                                    <Radio value='Male'>male</Radio>
+                                    <Radio value='Female'>female</Radio>
                                 </Flex>
                             </RadioGroup>
                         </ModalBody>

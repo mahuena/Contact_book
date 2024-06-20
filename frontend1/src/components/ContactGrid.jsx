@@ -18,12 +18,12 @@ export const ContactGrid = ({users, setUsers, getUsers, filteredUsers}) => {
                 <Table size={'md'} variant='simple'>
                     <Thead>
                         <Tr>
-                            <Th display={{base: 'none', md:'table-cell'}}>Profile</Th>
-                            <Th display={{base: 'none', md:'table-cell'}}>Name</Th>
-                            <Th display={{base: 'none', md:'table-cell'}}>Phone</Th>
-                            <Th display={{base: 'none', md:'table-cell'}}>Email</Th>
-                            <Th display={{base: 'none', md:'table-cell'}}>Gender</Th>
-                            <Th display={{base: 'none', md:'table-cell'}}>Action</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>profile</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>name</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>phone</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>email</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>gender</Th>
+                            <Th display={{base: 'none', md:'table-cell'}}>action</Th>
                         </Tr>
                     </Thead>
                     {filteredUsersList.map((user) => (
@@ -34,7 +34,7 @@ export const ContactGrid = ({users, setUsers, getUsers, filteredUsers}) => {
             </TableContainer>
 
             {isLoading && users.length === 0 && (
-                <Text fontSize={'xl'} textAlign={'center'} mt={4}> No contacts</Text>
+                <Text fontSize={'xl'} textAlign={'center'} mt={4}> No Contacts</Text>
             )}
         </>
     );
