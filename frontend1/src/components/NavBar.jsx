@@ -9,11 +9,33 @@ const Navbar = ({
     handleChangeImg,
     handleDeleteImg,
     image,
+    setImage,
     handleCreateContact,
     isLoading,
     inputs,
     setInputs,
-    setFilteredUserInput
+    setFilteredUserInput,
+    handleAddMessage,
+    handleDeleteMessage,
+    messages,
+    setMessages,
+    note,
+    setNote,
+    name,
+    setName,
+    phoneNumber,
+    setPhoneNumber,
+    address,
+    setAddress,
+    gender,
+    setGender,
+    isEditing,
+    showForm,
+    isCreating,
+    isOpen,
+    onOpen,
+    onClose,
+    handleCreate
 }) => {
 
     return (
@@ -38,15 +60,37 @@ const Navbar = ({
                             <Spacer />
                             <Box>
                                 <CreateContactModal
+                                    isCreating={isCreating}
+                                    showForm={showForm}
+                                    name={name}
+                                    setName={setName}
+                                    phoneNumber={phoneNumber}
+                                    setPhoneNumber={setPhoneNumber}
+                                    address={address}
+                                    setAddress={setAddress}
                                     setUsers={setUsers}
                                     getUsers={getUsers}
                                     handleChangeImg={handleChangeImg}
                                     handleDeleteImg={handleDeleteImg}
                                     image={image}
+                                    setImage={setImage}
                                     handleCreateContact={handleCreateContact}
                                     isLoading={isLoading}
                                     inputs={inputs}
                                     setInputs={setInputs}
+                                    handleAddMessage={handleAddMessage}
+                                    handleDeleteMessage={handleDeleteMessage}
+                                    messages={messages}
+                                    setMessages={setMessages}
+                                    note={note}
+                                    setNote={setNote}
+                                    gender={gender}
+                                    setGender={setGender}
+                                    isEditing={isEditing}
+                                    isOpen={isOpen}
+                                    onOpen={onOpen}
+                                    onClose={onClose}
+                                    handleCreate={handleCreate}
                                 />
                             </Box>
                         </Flex>

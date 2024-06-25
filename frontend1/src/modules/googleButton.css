@@ -1,3 +1,20 @@
+/*.goog-logo-link {*/
+/*    display: none !important;*/
+/*}*/
+
+/*.goog-te-gadget {*/
+/*    display: none !important;*/
+/*}*/
+
+/*.goog-te-gadget-simple {*/
+/*    display: none !important;*/
+/*}*/
+
+/*.goog-te-banner-frame.skiptranslate {*/
+/*    display: none !important;*/
+/*}*/
+
+
 .goog-te-combo{
     /*margin-top: 20px;*/
     /*margin-left: 20px;*/
@@ -14,3 +31,6 @@
     cursor: pointer;
     outline: none;
 }
+/*.google_translate_element{*/
+/*    display: none !important;*/
+/*}*/

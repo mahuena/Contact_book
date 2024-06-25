@@ -12,21 +12,35 @@ const GoogleTranslate = () => {
                 document.body.appendChild(script);
             }
         };
-
-        // Initialization function for Google Translate
         window.googleTranslateElementInit = () => {
-            if (!document.querySelector('.goog-te-combo')) {
-                new window.google.translate.TranslateElement(
-                    { pageLanguage: 'en', layout: window.google.translate.TranslateElement },
-                    'google_translate_element'
-                );
-            }
-        };
-        // Add the Google Translate script
-        addGoogleTranslateScript();
-    }, []);
+                window.google.translate.TranslateElement(
 
-    return (
+                    {
+                        pageLanguage: 'en',
+                        // layout: window.google.translate.TranslateElement,
+                        includedLanguages: 'en,fr,es',
+                    },
+                    'google_translate_element',
+
+                );
+        };
+        addGoogleTranslateScript();
+
+
+    // const observer = new MutationObserver(() => {
+    //     const banner = document.querySelector('.goog-te-banner-frame.skiptranslate');
+    //     if (banner) {
+    //         banner.style.display = 'none';
+    //     }
+    // });
+
+        // observer.observe(document.body, { childList: true, subtree: true });
+    // return () => observer.disconnect();
+}, []);
+
+
+
+return (
         <div id="google_translate_element"></div>
     );
 };

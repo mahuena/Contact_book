@@ -4,7 +4,11 @@ import {useEffect, useState} from "react";
 import {ContactTable} from "./ContactTable.jsx";
 
 // @ts-ignore
-export const ContactGrid = ({users, setUsers, getUsers, filteredUsers}) => {
+export const ContactGrid = ({users, setUsers, getUsers, filteredUsers,
+                                handleAddMessage, handleDeleteMessage, tempContact, onOpen, isOpen, onClose, setIsEditing,
+                            messages, setMessages, note, setNote, image, setImage, handleChangeImg, handleDeleteImg,
+    name, setName, phoneNumber, setPhoneNumber, address, setAddress, gender, setGender, handleEditContact, handleEdit
+                            }) => {
     const [isLoading, setIsLoading] = useState(true)
     const filteredUsersList = filteredUsers();
 
@@ -28,6 +32,28 @@ export const ContactGrid = ({users, setUsers, getUsers, filteredUsers}) => {
                     </Thead>
                     {filteredUsersList.map((user) => (
                         <ContactTable  key={user.id} user={user} setUsers={setUsers} getUsers={getUsers}
+                                        handleAddMessage={handleAddMessage} handleDeleteMessage={handleDeleteMessage}
+                                       messages={messages} setMessages={setMessages} note={note}
+                                       setNote={setNote}
+                                       name={name}
+                                       setName={setName}
+                                       phoneNumber={phoneNumber}
+                                       setPhoneNumber={setPhoneNumber}
+                                       address={address}
+                                       setAddress={setAddress}
+                                       genger={gender}
+                                       setGender={setGender}
+                                       image={image}
+                                       setImage={setImage}
+                                       tempContact={tempContact}
+                                       handleEdit={handleEdit}
+                                       handleEditContact={handleEditContact}
+                                       handleChangeImg={handleChangeImg}
+                                       handleDeleteImg={handleDeleteImg}
+                                       isOpen={isOpen}
+                                       onOpen={onOpen}
+                                       onClose={onClose}
+                                       setIsEditing={setIsEditing}
                         />
                     ))}
                 </Table>
