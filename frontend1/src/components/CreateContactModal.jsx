@@ -108,7 +108,7 @@ export const CreateContactModal = ({
                                     </Tag>
                                 ))}
 
-                                <RadioGroup mt={4} onChange={(value) => setGender(value) }>
+                                <RadioGroup mt={4} value={gender}  onChange={setGender}>
                                     <Flex gap={5}>
                                         <Radio value='Male'>male</Radio>
                                         <Radio value='Female'>female</Radio>
