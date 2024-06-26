@@ -54,16 +54,16 @@ export const ViewModal = ({user, messages, setMessages,
                             <Card style={{padding: '15px', backgroundColor: '#ffffff'}}>
                                 <Stack spacing={4}>
                                     <Text style={{color: '#0066b2'}}>Messages</Text>
-                                    {messages && messages.map((message, index) => (
-                                        <Flex>
-                                            <Text key={index} style={{color: '#0066b2'}}>{message.text}</Text>
-                                            <Text style={{
-                                                fontSize: "10px",
-                                                textAlign: "start",
-                                                marginTop: "4px"
-                                            }}>{message.date}</Text>
-                                        </Flex>
-                                    ))}
+                                    {/*{messages && messages.map((message, index) => (*/}
+                                    {/*    <Flex>*/}
+                                    {/*        <Text key={index} style={{color: '#0066b2'}}>{message.text}</Text>*/}
+                                    {/*        <Text style={{*/}
+                                    {/*            fontSize: "10px",*/}
+                                    {/*            textAlign: "start",*/}
+                                    {/*            marginTop: "4px"*/}
+                                    {/*        }}>{message.date}</Text>*/}
+                                    {/*    </Flex>*/}
+                                    {/*))}*/}
                                 </Stack>
                             </Card>
                         </Stack>

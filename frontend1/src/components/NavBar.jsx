@@ -30,8 +30,6 @@ const Navbar = ({
     gender,
     setGender,
     isEditing,
-    showForm,
-    isCreating,
     isOpen,
     onOpen,
     onClose,
@@ -60,8 +58,6 @@ const Navbar = ({
                             <Spacer />
                             <Box>
                                 <CreateContactModal
-                                    isCreating={isCreating}
-                                    showForm={showForm}
                                     name={name}
                                     setName={setName}
                                     phoneNumber={phoneNumber}
@@ -76,8 +72,6 @@ const Navbar = ({
                                     setImage={setImage}
                                     handleCreateContact={handleCreateContact}
                                     isLoading={isLoading}
-                                    inputs={inputs}
-                                    setInputs={setInputs}
                                     handleAddMessage={handleAddMessage}
                                     handleDeleteMessage={handleDeleteMessage}
                                     messages={messages}

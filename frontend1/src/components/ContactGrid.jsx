@@ -18,7 +18,7 @@ export const ContactGrid = ({users, setUsers, getUsers, filteredUsers,
 
     return (
         <>
-            <TableContainer style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%',}}>
+            <TableContainer style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', marginBottom: "50px"}}>
                 <Table size={'md'} variant='simple'>
                     <Thead>
                         <Tr>

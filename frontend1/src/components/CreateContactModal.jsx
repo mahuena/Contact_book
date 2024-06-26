@@ -8,11 +8,11 @@ import {
 import {CiEdit, CiTrash} from "react-icons/ci";
 // @ts-ignore
 export const CreateContactModal = ({
-   user, getUsers, handleAddMessage, handleDeleteMessage,
+   user, handleAddMessage, handleDeleteMessage,
    messages, setMessages, note, setNote, image, setImage,
    name, setName, phoneNumber, setPhoneNumber, address, setAddress, gender, setGender,
-   handleEditContact, handleEdit, handleChangeImg, handleDeleteImg, tempContact,
-   handleCreateContact, isEditing, showForm, isCreating, isOpen, onOpen, onClose, handleCreate
+   handleEditContact,  handleChangeImg, handleDeleteImg,
+   handleCreateContact, isEditing, isOpen,  onClose, handleCreate
 }) => {
     const [isLoading, setIsLoading] = useState(false);
     const defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png';
@@ -103,15 +103,15 @@ export const CreateContactModal = ({
                                                 fontSize: "10px",
                                                 textAlign: "start",
                                                 marginTop: "4px"
-                                            }}>{new Date(message.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                            }}>{new Date(message.date).toLocaleTimeString([], {weekday: 'long',  hour: '2-digit', minute: '2-digit' })}</p>
                                         </Flex>
                                     </Tag>
                                 ))}
 
-                                <RadioGroup mt={4} value={gender}  onChange={setGender}>
+                                <RadioGroup mt={4} value={gender}  onChange={(value) => setGender(value)}>
                                     <Flex gap={5}>
-                                        <Radio value='Male'>male</Radio>
-                                        <Radio value='Female'>female</Radio>
+                                        <Radio value="Male">male</Radio>
+                                        <Radio value="Female">female</Radio>
                                     </Flex>
                                 </RadioGroup>
                             </ModalBody>
