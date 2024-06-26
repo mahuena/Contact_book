@@ -9,30 +9,10 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { CiEdit, CiTrash } from "react-icons/ci";
-import { GrView } from "react-icons/gr";
 import { BASE_URL } from "../api/Request";
 import { ViewModal } from "./ViewModal.jsx";
 
-export const ContactTable = ({
-  user,
-  setUsers,
-  image,
-  tempContact,
-  getUsers,
-  note,
-  setNote,
-  name,
-  setName,
-  phoneNumber,
-  setPhoneNumber,
-  address,
-  setAddress,
-  gender,
-  setGender,
-  messages,
-  setMessages,
-  handleEdit,
-}) => {
+export const ContactTable = ({ user, image, tempContact, handleEdit }) => {
   const toast = useToast();
 
   const handleDeleteContact = async (id) => {
@@ -84,24 +64,7 @@ export const ContactTable = ({
           <Td display={{ base: "none", md: "table-cell" }}>{user.gender}</Td>
           <Td>
             <Flex>
-              <ViewModal
-                user={tempContact}
-                setUsers={setUsers}
-                getUsers={getUsers}
-                messages={messages}
-                setMessages={setMessages}
-                note={note}
-                setNote={setNote}
-                name={name}
-                setName={setName}
-                phoneNumber={phoneNumber}
-                setPhoneNumber={setPhoneNumber}
-                address={address}
-                setAddress={setAddress}
-                genger={gender}
-                setGender={setGender}
-                image={image}
-              />
+              <ViewModal user={tempContact} image={image} />
 
               <IconButton
                 variant="ghost"
@@ -111,27 +74,6 @@ export const ContactTable = ({
                 icon={<CiEdit size={20} />}
                 onClick={() => handleEdit(user)}
               />
-
-              {/*<EditModal setUsers={setUsers} user={user} getUsers={getUsers}*/}
-              {/*           messages={messages} setMessages={setMessages} note={note}*/}
-              {/*           setNote={setNote}*/}
-              {/*           name={name}*/}
-              {/*//            setName={setName}*/}
-              {/*//            phoneNumber={phoneNumber}*/}
-              {/*//            setPhoneNumber={setPhoneNumber}*/}
-              {/*//            address={address}*/}
-              {/*//            setAddress={setAddress}*/}
-              {/*//            genger={gender}*/}
-              {/*//            setGender={setGender}*/}
-              {/*//            image={image}*/}
-              {/*//            setImage={setImage}*/}
-              {/*//            tempContact={tempContact}*/}
-              {/*//             handleEdit={handleEdit}*/}
-              {/*//             handleEditContact={handleEditContact}*/}
-              {/*//             handleAddMessage={handleAddMessage} handleDeleteMessage={handleDeleteMessage}*/}
-              {/*//            handleChangeImg={handleChangeImg}*/}
-              {/*//            handleDeleteImg={handleDeleteImg}*/}
-              {/*// />*/}
 
               <IconButton
                 variant="ghost"

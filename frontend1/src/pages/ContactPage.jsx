@@ -1,5 +1,5 @@
 import { Box, Container, Stack, useDisclosure } from "@chakra-ui/react";
-import GoogleTranslate from "../components/GoogleTranslate.jsx";
+// import GoogleTranslate from "../components/GoogleTranslate.jsx";
 import Navbar from "../components/NavBar.jsx";
 import { useToast } from "@chakra-ui/react";
 import { useState, useEffect, useCallback } from "react";
@@ -33,7 +33,7 @@ export const ContactPage = () => {
     getNotes();
   }, []);
 
-  const getUsers = useCallback(async () => {
+  const getUsers = async () => {
     try {
       const res = await fetch(`${BASE_URL}/contacts`);
       const data = await res.json();
@@ -44,7 +44,7 @@ export const ContactPage = () => {
     } catch (error) {
       console.error("another error", error);
     }
-  }, []);
+  };
   // const { data, status } = useQuery("contacts", getUsers);
 
   const getNotes = async () => {
@@ -174,7 +174,7 @@ export const ContactPage = () => {
     };
     try {
       updateContactMutation.mutate(updatedContact);
-      // onClose();
+
       // Reset the form fields
       setName("");
       setPhoneNumber("");
@@ -234,9 +234,9 @@ export const ContactPage = () => {
   return (
     <>
       <Stack minH={"100vh"} maxW={"1200px"} m={"auto"}>
-        <Box mt={"20px"} align={"end"}>
-          <GoogleTranslate />
-        </Box>
+        {/*<Box mt={"20px"} align={"end"}>*/}
+        {/*  <GoogleTranslate />*/}
+        {/*</Box>*/}
         <Navbar
           name={name}
           setName={setName}
@@ -248,7 +248,6 @@ export const ContactPage = () => {
           setGender={setGender}
           users={users}
           setUsers={setUsers}
-          getUsers={getUsers}
           handleChangeImg={handleChangeImg}
           handleDeleteImg={handleDeleteImg}
           image={image}
@@ -273,35 +272,11 @@ export const ContactPage = () => {
           maxW={{ base: "500px", sm: "650px", md: "900px", lg: "1200px" }}
         >
           <ContactGrid
-            onOpen={onOpen}
-            setIsEditing={setIsEditing}
             users={users}
-            setUsers={setUsers}
-            getUsers={getUsers}
             filteredUsers={filteredUsers}
-            handleAddMessage={handleAddMessage}
-            handleDeleteMessage={handleDeleteMessage}
-            messages={messages}
-            setMessages={setMessages}
-            name={name}
-            setName={setName}
-            phoneNumber={phoneNumber}
-            setPhoneNumber={setPhoneNumber}
-            address={address}
-            setAddress={setAddress}
-            gender={gender}
-            setGender={setGender}
-            note={note}
-            setNote={setNote}
             image={image}
-            setImage={setImage}
             tempContact={tempContact}
             handleEdit={handleEdit}
-            handleEditContact={handleEditContact}
-            handleChangeImg={handleChangeImg}
-            handleDeleteImg={handleDeleteImg}
-            isOpen={isOpen}
-            onClose={onClose}
           />
         </Container>
       </Stack>
