@@ -26,6 +26,7 @@ export const ContactPage = () => {
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
   const [image, setImage] = useState(defaultImage);
   const [messages, setMessages] = useState([]);
+  const [newMessages, setNewMessages] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
 
@@ -49,9 +50,9 @@ export const ContactPage = () => {
 
   const { data, status } = useQuery("contacts", getUsers);
 
-  const getNotes = useCallback(async (contactId) => {
+  const getNotes = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE_URL}/notes?contact_id=${contactId}`);
+      const res = await fetch(`${BASE_URL}/notes`);
       const data = await res.json();
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -71,19 +72,6 @@ export const ContactPage = () => {
         queryClient.invalidateQueries("contacts").then((r) => {});
         toast({ title: "Contact created.", status: "success" });
         onClose();
-      },
-    },
-  );
-
-  const addNoteMutation = useMutation(
-    (data) => axios.post(`${BASE_URL}/notes`, data),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("notes").then((r) => {});
-        toast({ title: "Note created.", status: "success" });
-      },
-      onError: (error) => {
-        console.log("error creating note", error);
       },
     },
   );
@@ -110,22 +98,7 @@ export const ContactPage = () => {
       contactImg_url: image,
     };
     console.log("data", data);
-    const newContact = await addContactMutation.mutateAsync(data);
-
-    // pass contactId to noteData
-    // const noteData = {
-    //   text: note,
-    //   date: new Date().toISOString(),
-    //   contact_id: id,
-    // };
-
-    const noteData = messages.map((message) => ({
-      text: message.message,
-      date: message.date,
-      contact_id: newContact.id, // Use the id of the new contact
-    }));
-    console.log("noteData", noteData);
-    addNoteMutation.mutate(noteData);
+    addContactMutation.mutateAsync(data);
 
     setUsers([...users, data]);
     onClose();
@@ -144,10 +117,12 @@ export const ContactPage = () => {
     setName(user?.name);
     setPhoneNumber(user?.phoneNumber);
     setAddress(user?.address);
-    // console.log("Raw notes:", user.notes);
-    // setMessages(user?.notes.split(","));
     setGender(user?.gender);
     setImage(user?.contactImg_url);
+    const userMessages = messages.filter(
+      (message) => message.contact_id === user.id,
+    );
+    setMessages(userMessages);
   };
 
   const updateContactMutation = useMutation(
@@ -165,6 +140,22 @@ export const ContactPage = () => {
     },
   );
 
+  const addNoteMutation = useMutation(
+    (data) => {
+      console.log("Sending note data:", data);
+      return axios.post(`${BASE_URL}/notes`, data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("notes").then((r) => {});
+        toast({ title: "Note created.", status: "success" });
+      },
+      onError: (error) => {
+        console.error("Error creating note", error.response.data);
+      },
+    },
+  );
+
   const handleEditContact = async (event) => {
     event.preventDefault();
     console.log("handleEditContact called");
@@ -173,26 +164,29 @@ export const ContactPage = () => {
       name: name,
       phoneNumber: phoneNumber,
       address: address,
-      // notes: messages.map((message) => ({
-      //   text: message.text,
-      //   date: message.date,
-      //   contact_id: message.contact_id,
-      // })),
       gender: gender,
       contactImg_url: image,
     };
-    try {
-      updateContactMutation.mutate(updatedContact);
+    console.log("updatedContact", updatedContact);
+    updateContactMutation.mutate(updatedContact);
 
-      setName("");
-      setPhoneNumber("");
-      setAddress("");
-      setGender("");
-      setImage(defaultImage);
-      setMessages([]);
-    } catch (error) {
-      setError(error.message);
-    }
+    const noteData = newMessages.map((message) => ({
+      message: message.message,
+      date: message.date,
+      contact_id: updatedContact.id,
+    }));
+
+    console.log("noteData", noteData);
+    addNoteMutation.mutate(noteData);
+
+    setName("");
+    setPhoneNumber("");
+    setAddress("");
+    setGender("");
+    setImage(defaultImage);
+    setMessages([...messages, ...newMessages]);
+    console.log("messages", messages);
+    setNewMessages([]);
   };
 
   const deleteContatMutation = useMutation(
@@ -208,28 +202,33 @@ export const ContactPage = () => {
     },
   );
 
+  // const deleteNoteMutation = useMutation(
+  //   (id) => axios.delete(`${BASE_URL}/notes/${id}`),
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries("notes").then((r) => {});
+  //       toast({ title: "Note deleted.", status: "success" });
+  //     },
+  //     onError: (error) => {
+  //       console.log("error delete", error);
+  //     },
+  //   },
+  // );
+
   const handleDeleteContact = async (id) => {
     deleteContatMutation.mutate(id);
-  };
-
-  const handleView = (user) => {
-    console.log("Viewing contact");
-    onOpen();
-    // setTempContact(user);
-    setIsReviewing(true);
-    setName(user?.name);
-    setPhoneNumber(user?.phoneNumber);
-    setAddress(user?.address);
+    // deleteNoteMutation.mutate(id);
   };
 
   const handleAddMessage = (contact_id) => {
-    if (note.trim() !== "" && !messages.includes(note.trim())) {
+    if (note.trim() !== "" && !newMessages.includes(note.trim())) {
       const newMessage = {
         message: note.trim(),
         date: new Date().toISOString(),
         contact_id: contact_id,
       };
-      setMessages([...messages, newMessage]);
+      setNewMessages([...newMessages, newMessage]);
+      console.log("newMessages", newMessages);
       setNote("");
     }
   };
@@ -267,11 +266,11 @@ export const ContactPage = () => {
         {/*  <GoogleTranslate />*/}
         {/*</Box>*/}
 
-        {messages.map((message, user) => (
-          <p key={user.id}>
-            {message.message}, {message.date},{/*{message.contact_id}*/}
-          </p>
-        ))}
+        {/*{messages.map((message, user) => (*/}
+        {/*  <p key={user.id}>*/}
+        {/*    {message.message}, {message.date},/!*{message.contact_id}*!/*/}
+        {/*  </p>*/}
+        {/*))}*/}
 
         <Navbar
           name={name}
@@ -319,7 +318,6 @@ export const ContactPage = () => {
             address={address}
             handleEdit={handleEdit}
             handleDeleteContact={handleDeleteContact}
-            handleView={handleView}
             isReviewing={isReviewing}
             setName={setName}
             setPhoneNumber={setPhoneNumber}
@@ -328,6 +326,7 @@ export const ContactPage = () => {
             isOpen={isOpen}
             onOpen={onOpen}
             onClose={onClose}
+            userMessages={messages}
           />
         </Container>
 

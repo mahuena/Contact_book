@@ -41,6 +41,8 @@ const Navbar = ({
   onClose,
   handleCreate,
   handleEditContact,
+  newMessages,
+  setNewMessages,
 }) => {
   return (
     <>
@@ -75,7 +77,7 @@ const Navbar = ({
                   name={name}
                   setName={setName}
                   phoneNumber={phoneNumber}
-                  setPhoneNumber={setPhoneNumber}
+                  setPhosetUsersneNumber={setPhoneNumber}
                   address={address}
                   setAddress={setAddress}
                   setUsers={setUsers}
@@ -99,6 +101,8 @@ const Navbar = ({
                   onOpen={onOpen}
                   onClose={onClose}
                   handleCreate={handleCreate}
+                  newMessages={newMessages}
+                  setNewMessages={setNewMessages}
                 />
               </Box>
             </Flex>

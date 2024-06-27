@@ -21,6 +21,7 @@ export const ContactTable = ({
   isOpen,
   onOpen,
   onClose,
+  userMessages,
 }) => {
   return (
     <>
@@ -67,6 +68,7 @@ export const ContactTable = ({
                 isOpen={isOpen}
                 onOpen={onOpen}
                 onClose={onClose}
+                userMessages={userMessages}
               />
 
               {/*<IconButton*/}

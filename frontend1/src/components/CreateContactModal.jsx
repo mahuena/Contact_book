@@ -48,6 +48,8 @@ export const CreateContactModal = ({
   isOpen,
   onClose,
   handleCreate,
+  newMessages,
+  setNewMessages,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const defaultImage =
@@ -152,79 +154,73 @@ export const CreateContactModal = ({
                 />
               </FormControl>
 
-              <Flex style={{ flexDirection: "column" }}>
-                <FormControl mt={4}>
-                  <FormLabel>Note</FormLabel>
-                  <Textarea
-                    placeholder="Hello here!"
-                    value={note}
-                    h={"10px"}
-                    onChange={(e) => setNote(e.target.value)}
-                  />
-                </FormControl>
+              {isEditing && (
+                <>
+                  <Flex style={{ flexDirection: "column" }}>
+                    <FormControl mt={4}>
+                      <FormLabel>Note</FormLabel>
+                      <Textarea
+                        placeholder="Hello here!"
+                        value={note}
+                        h={"10px"}
+                        onChange={(e) => setNote(e.target.value)}
+                      />
+                    </FormControl>
 
-                <Button
-                  mt={2}
-                  onClick={handleAddMessage}
-                  style={{ float: "right" }}
-                >
-                  Add Message
-                </Button>
-              </Flex>
+                    <Button
+                      mt={2}
+                      onClick={handleAddMessage}
+                      style={{ float: "right" }}
+                    >
+                      Add Message
+                    </Button>
+                  </Flex>
 
-              {/*{users.map((user) => (*/}
-              {/*  <Box key={user.id}>*/}
-              {/*    /!*<p>{user.name}</p>*!/*/}
-              {/*    {user.notes && user.notes.length > 0*/}
-              {/*      ? user.messages.map((message) => (*/}
-              {/*          <p key={message.id}>*/}
-              {/*            {message.message}, {message.date}*/}
-              {/*          </p>*/}
-              {/*        ))*/}
-              {/*      : ""}*/}
-              {/*  </Box>*/}
-              {/*))}*/}
-
-              {messages &&
-                messages.map((message, index) => (
-                  <Tag key={index} mt={2} mr={3} px={2} py={1}>
-                    <Flex style={{ flexDirection: "column" }}>
-                      <Flex style={{ align: "center" }}>
-                        <span style={{ color: "#0066b2" }}>
-                          {message.message}
-                        </span>
-                        <span
-                          onClick={() => handleDeleteMessage(index)}
-                          style={{
-                            marginLeft: "10px",
-                            fontSize: "18px",
-                            cursor: "pointer",
-                            textAlign: "end",
-                            color: "#0066b2",
-                          }}
-                        >
-                          &times;
-                        </span>
-                      </Flex>
-                      <p
-                        style={{
-                          fontSize: "10px",
-                          textAlign: "start",
-                          marginTop: "4px",
-                        }}
-                      >
-                        {new Date(message.date).toLocaleTimeString(undefined, {
-                          weekday: "short",
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </p>
-                    </Flex>
-                  </Tag>
-                ))}
+                  {messages &&
+                    messages.map((message, index) => (
+                      <Tag key={index} mt={2} mr={3} px={2} py={1}>
+                        <Flex style={{ flexDirection: "column" }}>
+                          <Flex style={{ align: "center" }}>
+                            <span style={{ color: "#0066b2" }}>
+                              {message.message}
+                            </span>
+                            <span
+                              onClick={() => handleDeleteMessage(index)}
+                              style={{
+                                marginLeft: "10px",
+                                fontSize: "18px",
+                                cursor: "pointer",
+                                textAlign: "end",
+                                color: "#0066b2",
+                              }}
+                            >
+                              &times;
+                            </span>
+                          </Flex>
+                          <p
+                            style={{
+                              fontSize: "10px",
+                              textAlign: "start",
+                              marginTop: "4px",
+                            }}
+                          >
+                            {new Date(message.date).toLocaleTimeString(
+                              undefined,
+                              {
+                                weekday: "short",
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              },
+                            )}
+                          </p>
+                        </Flex>
+                      </Tag>
+                    ))}
+                </>
+              )}
 
               <RadioGroup
                 mt={4}
@@ -250,12 +246,13 @@ export const CreateContactModal = ({
               <Button
                 onClick={() => {
                   onClose();
-                  setName("");
-                  setPhoneNumber("");
-                  setAddress("");
-                  setGender("");
-                  setImage(defaultImage);
-                  setMessages([]);
+                  // setName("");
+                  // setPhoneNumber("");
+                  // setAddress("");
+                  // setGender("");
+                  // setImage(defaultImage);
+                  // setMessages([...messages, ...newMessages]);
+                  // setNewMessages([]);
                 }}
               >
                 Cancel

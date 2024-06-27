@@ -17,12 +17,12 @@ export const ContactGrid = ({
   setAddress,
   address,
   handleDeleteContact,
-  handleView,
   isReviewing,
   setImage,
   isOpen,
   onOpen,
   onClose,
+  userMessages,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const filteredUsersList = filteredUsers();
@@ -63,7 +63,6 @@ export const ContactGrid = ({
               name={name}
               phoneNumber={phoneNumber}
               address={address}
-              handleView={handleView}
               isReviewing={isReviewing}
               setName={setName}
               setPhoneNumber={setPhoneNumber}
@@ -72,6 +71,7 @@ export const ContactGrid = ({
               isOpen={isOpen}
               onOpen={onOpen}
               onClose={onClose}
+              userMessages={userMessages}
             />
           ))}
         </Table>
