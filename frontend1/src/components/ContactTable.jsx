@@ -1,40 +1,15 @@
-import {
-  Flex,
-  IconButton,
-  Tbody,
-  Td,
-  Tr,
-  useToast,
-  Image,
-  Link,
-} from "@chakra-ui/react";
+import { Flex, IconButton, Tbody, Td, Tr, Image, Link } from "@chakra-ui/react";
 import { CiEdit, CiTrash } from "react-icons/ci";
-import { BASE_URL } from "../api/Request";
 import { ViewModal } from "./ViewModal.jsx";
 
-export const ContactTable = ({ user, image, tempContact, handleEdit }) => {
-  const toast = useToast();
-
-  const handleDeleteContact = async (id) => {
-    try {
-      const res = await fetch(`${BASE_URL}/contacts/${user.id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error);
-      }
-      // getUsers();
-      toast({ title: "contact deleted", status: "success" });
-    } catch (error) {
-      toast({
-        title: "error occurred",
-        description: error.message,
-        status: "error",
-      });
-    }
-  };
-
+export const ContactTable = ({
+  user,
+  image,
+  tempContact,
+  handleEdit,
+  handleDeleteContact,
+  name,
+}) => {
   return (
     <>
       <Tbody w={"100%"} maxW={"1200px"}>
@@ -45,7 +20,7 @@ export const ContactTable = ({ user, image, tempContact, handleEdit }) => {
               height="50px"
               objectFit="cover"
               borderRadius={"50%"}
-              src={user.contactImg_url}
+              src={user["contactImg_url"]}
             />
           </Td>
           <Td translate="no">{user.name}</Td>
@@ -62,9 +37,10 @@ export const ContactTable = ({ user, image, tempContact, handleEdit }) => {
             </Link>
           </Td>
           <Td display={{ base: "none", md: "table-cell" }}>{user.gender}</Td>
+          {/*<Td>{user.id}</Td>*/}
           <Td>
             <Flex>
-              <ViewModal user={tempContact} image={image} />
+              <ViewModal user={tempContact} image={image} name={name} />
 
               <IconButton
                 variant="ghost"
@@ -80,7 +56,7 @@ export const ContactTable = ({ user, image, tempContact, handleEdit }) => {
                 colorScheme="red"
                 size={"sm"}
                 aria-label="see menu"
-                onClick={handleDeleteContact}
+                onClick={() => handleDeleteContact(user.id)}
                 icon={<CiTrash size={20} />}
               />
             </Flex>

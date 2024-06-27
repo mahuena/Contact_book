@@ -1,5 +1,5 @@
 import { BiAddToQueue } from "react-icons/bi";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // @ts-ignore
 import {
   Button,
@@ -52,14 +52,6 @@ export const CreateContactModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const defaultImage =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
-  const handleSubmit = () => {
-    // event.preventDefault();
-    if (isEditing) {
-      handleEditContact();
-    } else {
-      handleCreateContact();
-    }
-  };
 
   return (
     <>
@@ -74,7 +66,7 @@ export const CreateContactModal = ({
         style={{ width: "700px" }}
       >
         <ModalOverlay />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={isEditing ? handleEditContact : handleCreateContact}>
           <ModalContent>
             <ModalHeader>
               {isEditing ? "Contact Update" : "New Contact"}
@@ -180,12 +172,27 @@ export const CreateContactModal = ({
                 </Button>
               </Flex>
 
+              {/*{users.map((user) => (*/}
+              {/*  <Box key={user.id}>*/}
+              {/*    /!*<p>{user.name}</p>*!/*/}
+              {/*    {user.notes && user.notes.length > 0*/}
+              {/*      ? user.messages.map((message) => (*/}
+              {/*          <p key={message.id}>*/}
+              {/*            {message.message}, {message.date}*/}
+              {/*          </p>*/}
+              {/*        ))*/}
+              {/*      : ""}*/}
+              {/*  </Box>*/}
+              {/*))}*/}
+
               {messages &&
                 messages.map((message, index) => (
                   <Tag key={index} mt={2} mr={3} px={2} py={1}>
                     <Flex style={{ flexDirection: "column" }}>
                       <Flex style={{ align: "center" }}>
-                        <span style={{ color: "#0066b2" }}>{message.text}</span>
+                        <span style={{ color: "#0066b2" }}>
+                          {message.message}
+                        </span>
                         <span
                           onClick={() => handleDeleteMessage(index)}
                           style={{
@@ -206,8 +213,11 @@ export const CreateContactModal = ({
                           marginTop: "4px",
                         }}
                       >
-                        {new Date(message.date).toLocaleTimeString([], {
-                          weekday: "long",
+                        {new Date(message.date).toLocaleTimeString(undefined, {
+                          weekday: "short",
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
                           hour: "2-digit",
                           minute: "2-digit",
                         })}

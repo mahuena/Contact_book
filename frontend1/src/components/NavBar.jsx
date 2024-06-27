@@ -40,6 +40,7 @@ const Navbar = ({
   onOpen,
   onClose,
   handleCreate,
+  handleEditContact,
 }) => {
   return (
     <>
@@ -83,6 +84,7 @@ const Navbar = ({
                   image={image}
                   setImage={setImage}
                   handleCreateContact={handleCreateContact}
+                  handleEditContact={handleEditContact}
                   isLoading={isLoading}
                   handleAddMessage={handleAddMessage}
                   handleDeleteMessage={handleDeleteMessage}

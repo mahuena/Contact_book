@@ -33,7 +33,7 @@ export const ContactPage = () => {
     getNotes();
   }, []);
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     try {
       const res = await fetch(`${BASE_URL}/contacts`);
       const data = await res.json();
@@ -44,12 +44,13 @@ export const ContactPage = () => {
     } catch (error) {
       console.error("another error", error);
     }
-  };
-  // const { data, status } = useQuery("contacts", getUsers);
+  });
 
-  const getNotes = async () => {
+  const { data, status } = useQuery("contacts", getUsers);
+
+  const getNotes = useCallback(async (contactId) => {
     try {
-      const res = await fetch(`${BASE_URL}/notes`);
+      const res = await fetch(`${BASE_URL}/notes?contact_id=${contactId}`);
       const data = await res.json();
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -58,8 +59,9 @@ export const ContactPage = () => {
     } catch (error) {
       console.error("another error", error);
     }
-  };
-  // const { data: notesData, status: notesStatus } = useQuery("notes", getNotes);
+  });
+
+  const { data: notesData, status: notesStatus } = useQuery("notes", getNotes);
 
   const addContactMutation = useMutation(
     (data, onClose) => axios.post(`${BASE_URL}/contacts`, data),
@@ -79,10 +81,13 @@ export const ContactPage = () => {
         queryClient.invalidateQueries("notes").then((r) => {});
         toast({ title: "Note created.", status: "success" });
       },
+      onError: (error) => {
+        console.log("error creating note", error);
+      },
     },
   );
 
-  const handleCreate = () => {
+  const handleCreate = useCallback(() => {
     setIsEditing(false);
     onOpen();
     setName("");
@@ -91,7 +96,7 @@ export const ContactPage = () => {
     setGender("");
     setImage(defaultImage);
     setMessages([]);
-  };
+  });
 
   const handleCreateContact = async (event) => {
     event.preventDefault();
@@ -104,26 +109,31 @@ export const ContactPage = () => {
       contactImg_url: image,
     };
     console.log("data", data);
-    const noteData = messages.map((message) => ({
-      text: message.text,
-      date: message.date,
-      contact_id: user.id,
-    }));
+    const newContact = await addContactMutation.mutateAsync(data);
 
-    console.log("noteNata", noteData);
-    try {
-      addContactMutation.mutate(data);
-      addNoteMutation.mutate(noteData);
-      // Reset the form fields
-      setName("");
-      setPhoneNumber("");
-      setAddress("");
-      setGender("");
-      setImage(defaultImage);
-      setMessages([]);
-    } catch (error) {
-      setError(error.message);
-    }
+    // pass contactId to noteData
+    // const noteData = {
+    //   text: note,
+    //   date: new Date().toISOString(),
+    //   contact_id: id,
+    // };
+
+    const noteData = messages.map((message) => ({
+      text: message.message,
+      date: message.date,
+      contact_id: newContact.id, // Use the id of the new contact
+    }));
+    console.log("noteData", noteData);
+    addNoteMutation.mutate(noteData);
+
+    setUsers([...users, data]);
+    onClose();
+    setName("");
+    setPhoneNumber("");
+    setAddress("");
+    setGender("");
+    setImage(defaultImage);
+    setMessages([]);
   };
 
   const handleEdit = (user) => {
@@ -133,13 +143,11 @@ export const ContactPage = () => {
     setName(user?.name);
     setPhoneNumber(user?.phoneNumber);
     setAddress(user?.address);
-    console.log("Raw notes:", user.notes);
-    setMessages(user?.notes.split(","));
+    // console.log("Raw notes:", user.notes);
+    // setMessages(user?.notes.split(","));
     setGender(user?.gender);
-    console.log("Editing user gender:", user?.gender);
     setImage(user?.contactImg_url);
   };
-  // console.log("Current gender state:", gender);
 
   const updateContactMutation = useMutation(
     (updatedContact) =>
@@ -156,26 +164,25 @@ export const ContactPage = () => {
     },
   );
 
-  // handleEditContact
   const handleEditContact = async (event) => {
     event.preventDefault();
+    console.log("handleEditContact called");
     const updatedContact = {
       ...tempContact,
       name: name,
       phoneNumber: phoneNumber,
       address: address,
-      notes: messages.map((message) => ({
-        text: message.text,
-        date: message.date,
-        contact_id: message.contact_id,
-      })),
+      // notes: messages.map((message) => ({
+      //   text: message.text,
+      //   date: message.date,
+      //   contact_id: message.contact_id,
+      // })),
       gender: gender,
       contactImg_url: image,
     };
     try {
       updateContactMutation.mutate(updatedContact);
 
-      // Reset the form fields
       setName("");
       setPhoneNumber("");
       setAddress("");
@@ -187,12 +194,29 @@ export const ContactPage = () => {
     }
   };
 
-  const handleAddMessage = (contactId) => {
+  const deleteContatMutation = useMutation(
+    (id) => axios.delete(`${BASE_URL}/contacts/${id}`),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("contacts").then((r) => {});
+        toast({ title: "Contact deleted.", status: "success" });
+      },
+      onError: (error) => {
+        console.log("error delete", error);
+      },
+    },
+  );
+
+  const handleDeleteContact = async (id) => {
+    deleteContatMutation.mutate(id);
+  };
+
+  const handleAddMessage = (contact_id) => {
     if (note.trim() !== "" && !messages.includes(note.trim())) {
       const newMessage = {
-        text: note.trim(),
+        message: note.trim(),
         date: new Date().toISOString(),
-        contactId: contactId,
+        contact_id: contact_id,
       };
       setMessages([...messages, newMessage]);
       setNote("");
@@ -207,16 +231,10 @@ export const ContactPage = () => {
   const handleChangeImg = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Create a new FileReader object
       const reader = new FileReader();
-      // Define the onload function
-      reader.onload = function (e) {
-        // The result contains the data URL
-        const dataUrl = e.target.result;
-        // Set the data URL in the state
-        setImage(dataUrl);
+      reader.onloadend = function () {
+        setImage(reader.result);
       };
-      // Read the file as a data URL
       reader.readAsDataURL(file);
     }
   };
@@ -237,6 +255,13 @@ export const ContactPage = () => {
         {/*<Box mt={"20px"} align={"end"}>*/}
         {/*  <GoogleTranslate />*/}
         {/*</Box>*/}
+
+        {messages.map((message, user) => (
+          <p key={user.id}>
+            {message.message}, {message.date},{/*{message.contact_id}*/}
+          </p>
+        ))}
+
         <Navbar
           name={name}
           setName={setName}
@@ -253,6 +278,7 @@ export const ContactPage = () => {
           image={image}
           setImage={setImage}
           handleCreateContact={handleCreateContact}
+          handleEditContact={handleEditContact}
           isLoading={isLoading}
           filteredUserInput={filteredUserInput}
           setFilteredUserInput={setFilteredUserInput}
@@ -268,6 +294,7 @@ export const ContactPage = () => {
           onClose={onClose}
           handleCreate={handleCreate}
         />
+
         <Container
           maxW={{ base: "500px", sm: "650px", md: "900px", lg: "1200px" }}
         >
@@ -276,9 +303,13 @@ export const ContactPage = () => {
             filteredUsers={filteredUsers}
             image={image}
             tempContact={tempContact}
+            name={name}
             handleEdit={handleEdit}
+            handleDeleteContact={handleDeleteContact}
           />
         </Container>
+
+        <p>{name}</p>
       </Stack>
     </>
   );

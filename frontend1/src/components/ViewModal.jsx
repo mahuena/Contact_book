@@ -16,7 +16,6 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import { GrView } from "react-icons/gr";
-// import { useState } from "react";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 

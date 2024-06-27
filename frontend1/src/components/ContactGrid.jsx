@@ -1,6 +1,6 @@
 import { Table, Thead, Tr, Th, TableContainer } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ContactTable } from "./ContactTable.jsx";
 
 // @ts-ignore
@@ -10,6 +10,8 @@ export const ContactGrid = ({
   tempContact,
   image,
   handleEdit,
+  name,
+  handleDeleteContact,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const filteredUsersList = filteredUsers();
@@ -38,6 +40,7 @@ export const ContactGrid = ({
               <Th display={{ base: "none", md: "table-cell" }}>action</Th>
             </Tr>
           </Thead>
+
           {filteredUsersList.map((user) => (
             <ContactTable
               key={user.id}
@@ -45,6 +48,8 @@ export const ContactGrid = ({
               image={image}
               tempContact={tempContact}
               handleEdit={handleEdit}
+              handleDeleteContact={handleDeleteContact}
+              name={name}
             />
           ))}
         </Table>
