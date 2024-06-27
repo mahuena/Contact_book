@@ -27,6 +27,7 @@ export const ContactPage = () => {
   const [image, setImage] = useState(defaultImage);
   const [messages, setMessages] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isReviewing, setIsReviewing] = useState(false);
 
   useEffect(() => {
     getUsers();
@@ -211,6 +212,16 @@ export const ContactPage = () => {
     deleteContatMutation.mutate(id);
   };
 
+  const handleView = (user) => {
+    console.log("Viewing contact");
+    onOpen();
+    // setTempContact(user);
+    setIsReviewing(true);
+    setName(user?.name);
+    setPhoneNumber(user?.phoneNumber);
+    setAddress(user?.address);
+  };
+
   const handleAddMessage = (contact_id) => {
     if (note.trim() !== "" && !messages.includes(note.trim())) {
       const newMessage = {
@@ -304,8 +315,19 @@ export const ContactPage = () => {
             image={image}
             tempContact={tempContact}
             name={name}
+            phoneNumber={phoneNumber}
+            address={address}
             handleEdit={handleEdit}
             handleDeleteContact={handleDeleteContact}
+            handleView={handleView}
+            isReviewing={isReviewing}
+            setName={setName}
+            setPhoneNumber={setPhoneNumber}
+            setAddress={setAddress}
+            setImage={setImage}
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onClose={onClose}
           />
         </Container>
 

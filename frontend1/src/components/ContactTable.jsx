@@ -1,6 +1,7 @@
 import { Flex, IconButton, Tbody, Td, Tr, Image, Link } from "@chakra-ui/react";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { ViewModal } from "./ViewModal.jsx";
+import { GrView } from "react-icons/gr";
 
 export const ContactTable = ({
   user,
@@ -8,7 +9,18 @@ export const ContactTable = ({
   tempContact,
   handleEdit,
   handleDeleteContact,
+  setName,
   name,
+  setPhoneNumber,
+  phoneNumber,
+  setAddress,
+  address,
+  handleView,
+  isReviewing,
+  setImage,
+  isOpen,
+  onOpen,
+  onClose,
 }) => {
   return (
     <>
@@ -40,13 +52,39 @@ export const ContactTable = ({
           {/*<Td>{user.id}</Td>*/}
           <Td>
             <Flex>
-              <ViewModal user={tempContact} image={image} name={name} />
+              <ViewModal
+                image={image}
+                name={name}
+                phoneNumber={phoneNumber}
+                address={address}
+                user={user}
+                handleView={handleView}
+                isReviewing={isReviewing}
+                setName={setName}
+                setPhoneNumber={setPhoneNumber}
+                setAddress={setAddress}
+                setImage={setImage}
+                isOpen={isOpen}
+                onOpen={onOpen}
+                onClose={onClose}
+              />
+
+              {/*<IconButton*/}
+              {/*  variant="ghost"*/}
+              {/*  colorScheme="blue"*/}
+              {/*  size={"sm"}*/}
+              {/*  aria-label={"View Contact"}*/}
+              {/*  icon={<GrView size={20} />}*/}
+              {/*  onClick={() => handleView(user)}*/}
+              {/*  // icon={<GrView size={20} onClick={() => handleView(user)} />}*/}
+              {/*  // onClick={() => handleView(user)}*/}
+              {/*/>*/}
 
               <IconButton
                 variant="ghost"
                 colorScheme="green"
                 size={"sm"}
-                aria-label={"See the info"}
+                aria-label={"Edit Contact"}
                 icon={<CiEdit size={20} />}
                 onClick={() => handleEdit(user)}
               />

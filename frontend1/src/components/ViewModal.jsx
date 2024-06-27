@@ -90,9 +90,7 @@ export const ViewModal = ({ user, image }) => {
             </Stack>
           </ModalBody>
 
-          <ModalFooter>
-            <Button onClick={onClose}>Ok</Button>
-          </ModalFooter>
+          {/*<ModalFooter>/!*<Button onClick={onClose}>Ok</Button>*!/</ModalFooter>*/}
         </ModalContent>
       </Modal>
     </>

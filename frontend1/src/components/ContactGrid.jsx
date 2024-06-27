@@ -10,8 +10,19 @@ export const ContactGrid = ({
   tempContact,
   image,
   handleEdit,
+  setName,
   name,
+  setPhoneNumber,
+  phoneNumber,
+  setAddress,
+  address,
   handleDeleteContact,
+  handleView,
+  isReviewing,
+  setImage,
+  isOpen,
+  onOpen,
+  onClose,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const filteredUsersList = filteredUsers();
@@ -50,6 +61,17 @@ export const ContactGrid = ({
               handleEdit={handleEdit}
               handleDeleteContact={handleDeleteContact}
               name={name}
+              phoneNumber={phoneNumber}
+              address={address}
+              handleView={handleView}
+              isReviewing={isReviewing}
+              setName={setName}
+              setPhoneNumber={setPhoneNumber}
+              setAddress={setAddress}
+              setImage={setImage}
+              isOpen={isOpen}
+              onOpen={onOpen}
+              onClose={onClose}
             />
           ))}
         </Table>
