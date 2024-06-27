@@ -3,24 +3,20 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-# create an instance of the Flask class
 app = Flask(__name__)
 CORS(app)
 
 # or you can restrict it to specific origins and routes
-cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000/contact-app/"}})
 
 # configure the database
-# the database is a sqlite database (C-language library)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///address_book.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # migrate changes to db
 migrate = Migrate(app, db)
 
-# import the routes (way of importing when a python file doesn't have a class to import)
 import routes
 
 # create the database table
