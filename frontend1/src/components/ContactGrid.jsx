@@ -7,22 +7,9 @@ import { ContactTable } from "./ContactTable.jsx";
 export const ContactGrid = ({
   users,
   filteredUsers,
-  tempContact,
-  image,
   handleEdit,
-  setName,
-  name,
-  setPhoneNumber,
-  phoneNumber,
-  setAddress,
-  address,
   handleDeleteContact,
-  isReviewing,
-  setImage,
-  isOpen,
-  onOpen,
-  onClose,
-  userMessages,
+  messages,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const filteredUsersList = filteredUsers();
@@ -56,22 +43,9 @@ export const ContactGrid = ({
             <ContactTable
               key={user.id}
               user={user}
-              image={image}
-              tempContact={tempContact}
               handleEdit={handleEdit}
               handleDeleteContact={handleDeleteContact}
-              name={name}
-              phoneNumber={phoneNumber}
-              address={address}
-              isReviewing={isReviewing}
-              setName={setName}
-              setPhoneNumber={setPhoneNumber}
-              setAddress={setAddress}
-              setImage={setImage}
-              isOpen={isOpen}
-              onOpen={onOpen}
-              onClose={onClose}
-              userMessages={userMessages}
+              messages={messages}
             />
           ))}
         </Table>

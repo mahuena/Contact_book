@@ -10,21 +10,15 @@ import {
 } from "@chakra-ui/react";
 import { CreateContactModal } from "./CreateContactModal";
 import { SearchIcon } from "@chakra-ui/icons";
-// import { useState, useEffect } from 'react';
 
 const Navbar = ({
-  setUsers,
   handleChangeImg,
   handleDeleteImg,
   image,
-  setImage,
   handleCreateContact,
-  isLoading,
   setFilteredUserInput,
   handleAddMessage,
-  handleDeleteMessage,
   messages,
-  setMessages,
   note,
   setNote,
   name,
@@ -41,8 +35,7 @@ const Navbar = ({
   onClose,
   handleCreate,
   handleEditContact,
-  newMessages,
-  setNewMessages,
+  closeModal,
 }) => {
   return (
     <>
@@ -77,21 +70,17 @@ const Navbar = ({
                   name={name}
                   setName={setName}
                   phoneNumber={phoneNumber}
-                  setPhosetUsersneNumber={setPhoneNumber}
+                  setPhoneNumber={setPhoneNumber}
                   address={address}
                   setAddress={setAddress}
-                  setUsers={setUsers}
                   handleChangeImg={handleChangeImg}
                   handleDeleteImg={handleDeleteImg}
                   image={image}
-                  setImage={setImage}
                   handleCreateContact={handleCreateContact}
                   handleEditContact={handleEditContact}
-                  isLoading={isLoading}
                   handleAddMessage={handleAddMessage}
-                  handleDeleteMessage={handleDeleteMessage}
+                  // handleDeleteMessage={handleDeleteMessage}
                   messages={messages}
-                  setMessages={setMessages}
                   note={note}
                   setNote={setNote}
                   gender={gender}
@@ -101,8 +90,7 @@ const Navbar = ({
                   onOpen={onOpen}
                   onClose={onClose}
                   handleCreate={handleCreate}
-                  newMessages={newMessages}
-                  setNewMessages={setNewMessages}
+                  closeModal={closeModal}
                 />
               </Box>
             </Flex>

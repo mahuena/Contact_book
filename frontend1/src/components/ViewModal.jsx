@@ -16,15 +16,16 @@ import {
   ModalFooter,
   Spacer,
   Tag,
+  Box,
 } from "@chakra-ui/react";
 import { GrView } from "react-icons/gr";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 
-export const ViewModal = ({ user, image, userMessages }) => {
+export const ViewModal = ({ user, messages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const defaultImage =
-  //   "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
+  const defaultImage =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
   const formatDate = (dateString) => {
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const months = [
@@ -53,17 +54,26 @@ export const ViewModal = ({ user, image, userMessages }) => {
     return `${dayName}, ${day} ${monthName} ${year} ${hours}:${minutes} ${ampm}`;
   };
 
+  let size = "xl";
+
   return (
     <>
       <IconButton
         variant="ghost"
         colorScheme="blue"
         size={"sm"}
+        key={size}
         aria-label={"See the info"}
         icon={<GrView size={20} onClick={onOpen} />}
       />
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        size={size}
+        scrollBehavior={"inside"}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>View Contact</ModalHeader>
@@ -83,7 +93,7 @@ export const ViewModal = ({ user, image, userMessages }) => {
                   height="150px"
                   objectFit="cover"
                   borderRadius={"50%"}
-                  src={image}
+                  src={user ? user.contactImg_url : ""}
                 />
                 <Text style={{ marginTop: "10px", fontSize: "20px" }}>
                   {user ? user.name : ""}
@@ -103,70 +113,58 @@ export const ViewModal = ({ user, image, userMessages }) => {
                   </Flex>
                 </Stack>
               </Card>
-              <Card style={{ backgroundColor: "#ffffff" }}>
+              <Card style={{ padding: "15px", backgroundColor: "#ffffff" }}>
                 <Stack spacing={4}>
-                  <Text style={{ padding: "15px", color: "#0066b2" }}>
-                    Messages
-                  </Text>
-                  {/*{messages && messages.map((message, index) => (*/}
-                  {/*    <Flex>*/}
-                  {/*        <Text key={index} style={{color: '#0066b2'}}>{message.text}</Text>*/}
-                  {/*        <Text style={{*/}
-                  {/*            fontSize: "10px",*/}
-                  {/*            textAlign: "start",*/}
-                  {/*            marginTop: "4px"*/}
-                  {/*        }}>{message.date}</Text>*/}
-                  {/*    </Flex>*/}
-                  {/*))}*/}
-
-                  {userMessages.map((message, index) => (
-                    <Tag
-                      key={index}
-                      style={{
-                        backgroundColor: "transparent",
-                        padding: "0px",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Flex
+                  <Text style={{ color: "#0066b2" }}>Messages</Text>
+                  {messages &&
+                    messages.map((message, index) => (
+                      <Tag
+                        key={index}
                         style={{
+                          backgroundColor: "transparent",
+                          border: "1px solid #0066b2",
+                          padding: "10px 0",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          gap: "30px",
-                          margin: "auto",
                         }}
                       >
-                        <Text style={{ width: "200px" }}>
-                          {message.message}
-                        </Text>
-                        <Spacer />
-                        <Text style={{ fontSize: "11px" }}>
-                          {formatDate(message.date)}
-                        </Text>
-                      </Flex>
-                    </Tag>
-                  ))}
+                        <Flex
+                          style={{
+                            alignItems: "end",
+                            justifyContent: "space-around",
+                            // gap: "20p.x",
+                            margin: "auto",
+                          }}
+                        >
+                          <Box
+                            style={{
+                              alignItems: "start",
+                              float: "left",
+                              // backgroundColor: "black",
+                            }}
+                          >
+                            <Text style={{ color: "#0066b2" }}>
+                              {message.message}
+                            </Text>
+                          </Box>
+                          <Spacer />
+                          <Box>
+                            <Text
+                              style={{ fontSize: "11px", color: "#0066b2" }}
+                            >
+                              {formatDate(message.date)}
+                            </Text>
+                          </Box>
+                        </Flex>
+                      </Tag>
+                    ))}
                 </Stack>
               </Card>
             </Stack>
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              onClick={() => {
-                onClose();
-                // setName("");
-                // setPhoneNumber("");
-                // setAddress("");
-                // setGender("");
-                // setImage(defaultImage);
-                // setMessages([...messages, ...newMessages]);
-                // setNewMessages([]);
-              }}
-            >
-              Ok
-            </Button>
+            <Button onClick={onClose}>Ok</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -20,18 +20,19 @@ import {
   IconButton,
   Textarea,
   Tag,
+  // Editable,
+  // EditablePreview,
+  // EditableTextarea,
 } from "@chakra-ui/react";
 import { CiEdit, CiTrash } from "react-icons/ci";
 // @ts-ignore
 export const CreateContactModal = ({
   handleAddMessage,
-  handleDeleteMessage,
+  // handleDeleteMessage,
   messages,
-  setMessages,
   note,
   setNote,
   image,
-  setImage,
   name,
   setName,
   phoneNumber,
@@ -48,23 +49,25 @@ export const CreateContactModal = ({
   isOpen,
   onClose,
   handleCreate,
-  newMessages,
-  setNewMessages,
+  closeModal,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, s] = useState(false);
   const defaultImage =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
+  let size = "xl";
 
   return (
     <>
       <Button onClick={handleCreate}>
-        <BiAddToQueue size={20} />
+        <BiAddToQueue size={20} key={size} />
       </Button>
 
       <Modal
         isOpen={isOpen}
         onClose={onClose}
         isCentered
+        size={size}
+        scrollBehavior={"inside"}
         style={{ width: "700px" }}
       >
         <ModalOverlay />
@@ -178,39 +181,42 @@ export const CreateContactModal = ({
 
                   {messages &&
                     messages.map((message, index) => (
-                      <Tag key={index} mt={2} mr={3} px={2} py={1}>
+                      <Tag key={index} mt={2} mr={3} px={4} py={3}>
+                        {/*<EditablePreview />*/}
                         <Flex style={{ flexDirection: "column" }}>
-                          <Flex style={{ align: "center" }}>
+                          {/*<EditableTextarea />*/}
+                          <Flex
+                            style={{
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
                             <span style={{ color: "#0066b2" }}>
                               {message.message}
                             </span>
-                            <span
-                              onClick={() => handleDeleteMessage(index)}
-                              style={{
-                                marginLeft: "10px",
-                                fontSize: "18px",
-                                cursor: "pointer",
-                                textAlign: "end",
-                                color: "#0066b2",
-                              }}
-                            >
-                              &times;
-                            </span>
+                            {/*<span*/}
+                            {/*  onClick={() => handleDeleteMessage(index)}*/}
+                            {/*  style={{*/}
+                            {/*    marginLeft: "10px",*/}
+                            {/*    fontSize: "18px",*/}
+                            {/*    cursor: "pointer",*/}
+                            {/*    textAlign: "end",*/}
+                            {/*    color: "red",*/}
+                            {/*  }}*/}
+                            {/*>*/}
+                            {/*  &times;*/}
+                            {/*</span>*/}
                           </Flex>
                           <p
                             style={{
                               fontSize: "10px",
-                              textAlign: "start",
+                              textAlign: "end",
                               marginTop: "4px",
                             }}
                           >
                             {new Date(message.date).toLocaleTimeString(
                               undefined,
                               {
-                                weekday: "short",
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
                                 hour: "2-digit",
                                 minute: "2-digit",
                               },
@@ -235,28 +241,10 @@ export const CreateContactModal = ({
             </ModalBody>
 
             <ModalFooter>
-              <Button
-                colorScheme="blue"
-                mr={3}
-                type="submit"
-                isLoading={isLoading}
-              >
+              <Button colorScheme="blue" mr={3} type="submit">
                 {isEditing ? "Update" : "Save"}
               </Button>
-              <Button
-                onClick={() => {
-                  onClose();
-                  // setName("");
-                  // setPhoneNumber("");
-                  // setAddress("");
-                  // setGender("");
-                  // setImage(defaultImage);
-                  // setMessages([...messages, ...newMessages]);
-                  // setNewMessages([]);
-                }}
-              >
-                Cancel
-              </Button>
+              <Button onClick={closeModal}>Cancel</Button>
             </ModalFooter>
           </ModalContent>
         </form>

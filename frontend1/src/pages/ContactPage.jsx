@@ -20,7 +20,6 @@ export const ContactPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tempContact, setTempContact] = useState(null);
   const [filteredUserInput, setFilteredUserInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const defaultImage =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
@@ -29,6 +28,16 @@ export const ContactPage = () => {
   const [newMessages, setNewMessages] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
+  const closeModal = () => {
+    onClose();
+    setName("");
+    setPhoneNumber("");
+    setAddress("");
+    setGender("");
+    setImage(defaultImage);
+    setMessages([...messages, ...newMessages]);
+    setNewMessages([]);
+  };
 
   useEffect(() => {
     getUsers();
@@ -47,7 +56,6 @@ export const ContactPage = () => {
       console.error("another error", error);
     }
   });
-
   const { data, status } = useQuery("contacts", getUsers);
 
   const getNotes = useCallback(async () => {
@@ -62,7 +70,6 @@ export const ContactPage = () => {
       console.error("another error", error);
     }
   });
-
   const { data: notesData, status: notesStatus } = useQuery("notes", getNotes);
 
   const addContactMutation = useMutation(
@@ -84,7 +91,6 @@ export const ContactPage = () => {
     setAddress("");
     setGender("");
     setImage(defaultImage);
-    setMessages([]);
   });
 
   const handleCreateContact = async (event) => {
@@ -97,9 +103,7 @@ export const ContactPage = () => {
       gender: gender,
       contactImg_url: image,
     };
-    console.log("data", data);
     addContactMutation.mutateAsync(data);
-
     setUsers([...users, data]);
     onClose();
     setName("");
@@ -107,22 +111,6 @@ export const ContactPage = () => {
     setAddress("");
     setGender("");
     setImage(defaultImage);
-    setMessages([]);
-  };
-
-  const handleEdit = (user) => {
-    onOpen();
-    setIsEditing(true);
-    setTempContact(user);
-    setName(user?.name);
-    setPhoneNumber(user?.phoneNumber);
-    setAddress(user?.address);
-    setGender(user?.gender);
-    setImage(user?.contactImg_url);
-    const userMessages = messages.filter(
-      (message) => message.contact_id === user.id,
-    );
-    setMessages(userMessages);
   };
 
   const updateContactMutation = useMutation(
@@ -132,7 +120,6 @@ export const ContactPage = () => {
       onSuccess: () => {
         queryClient.invalidateQueries("contacts").then((r) => {});
         toast({ title: "Contact updated.", status: "success" });
-        onClose();
       },
       onError: (error) => {
         console.log("error update", error);
@@ -156,9 +143,24 @@ export const ContactPage = () => {
     },
   );
 
+  const handleEdit = (user) => {
+    onOpen();
+    setIsEditing(true);
+    setTempContact(user);
+    setName(user?.name);
+    setPhoneNumber(user?.phoneNumber);
+    setAddress(user?.address);
+    setGender(user?.gender);
+    setImage(user?.contactImg_url);
+    const userMessages = messages.filter(
+      (message) => message.contact_id === user.id,
+    );
+    console.log("userMessages", userMessages);
+    setMessages(userMessages);
+  };
+
   const handleEditContact = async (event) => {
     event.preventDefault();
-    console.log("handleEditContact called");
     const updatedContact = {
       ...tempContact,
       name: name,
@@ -167,7 +169,6 @@ export const ContactPage = () => {
       gender: gender,
       contactImg_url: image,
     };
-    console.log("updatedContact", updatedContact);
     updateContactMutation.mutate(updatedContact);
 
     const noteData = newMessages.map((message) => ({
@@ -175,10 +176,8 @@ export const ContactPage = () => {
       date: message.date,
       contact_id: updatedContact.id,
     }));
-
-    console.log("noteData", noteData);
     addNoteMutation.mutate(noteData);
-
+    onClose();
     setName("");
     setPhoneNumber("");
     setAddress("");
@@ -186,7 +185,7 @@ export const ContactPage = () => {
     setImage(defaultImage);
     setMessages([...messages, ...newMessages]);
     console.log("messages", messages);
-    setNewMessages([]);
+    setMessages(userMessages);
   };
 
   const deleteContatMutation = useMutation(
@@ -221,7 +220,7 @@ export const ContactPage = () => {
   };
 
   const handleAddMessage = (contact_id) => {
-    if (note.trim() !== "" && !newMessages.includes(note.trim())) {
+    if (note.trim() !== "" && !messages.includes(note.trim())) {
       const newMessage = {
         message: note.trim(),
         date: new Date().toISOString(),
@@ -229,6 +228,7 @@ export const ContactPage = () => {
       };
       setNewMessages([...newMessages, newMessage]);
       console.log("newMessages", newMessages);
+      setMessages([...messages, newMessages]);
       setNote("");
     }
   };
@@ -262,15 +262,7 @@ export const ContactPage = () => {
   return (
     <>
       <Stack minH={"100vh"} maxW={"1200px"} m={"auto"}>
-        {/*<Box mt={"20px"} align={"end"}>*/}
-        {/*  <GoogleTranslate />*/}
-        {/*</Box>*/}
-
-        {/*{messages.map((message, user) => (*/}
-        {/*  <p key={user.id}>*/}
-        {/*    {message.message}, {message.date},/!*{message.contact_id}*!/*/}
-        {/*  </p>*/}
-        {/*))}*/}
+        {/*<GoogleTranslate />*/}
 
         <Navbar
           name={name}
@@ -281,21 +273,15 @@ export const ContactPage = () => {
           setAddress={setAddress}
           gender={gender}
           setGender={setGender}
-          users={users}
-          setUsers={setUsers}
           handleChangeImg={handleChangeImg}
           handleDeleteImg={handleDeleteImg}
           image={image}
-          setImage={setImage}
           handleCreateContact={handleCreateContact}
           handleEditContact={handleEditContact}
-          isLoading={isLoading}
-          filteredUserInput={filteredUserInput}
           setFilteredUserInput={setFilteredUserInput}
           handleAddMessage={handleAddMessage}
           handleDeleteMessage={handleDeleteMessage}
           messages={messages}
-          setMessages={setMessages}
           note={note}
           setNote={setNote}
           isEditing={isEditing}
@@ -303,6 +289,7 @@ export const ContactPage = () => {
           onOpen={onOpen}
           onClose={onClose}
           handleCreate={handleCreate}
+          closeModal={closeModal}
         />
 
         <Container
@@ -311,26 +298,11 @@ export const ContactPage = () => {
           <ContactGrid
             users={users}
             filteredUsers={filteredUsers}
-            image={image}
-            tempContact={tempContact}
-            name={name}
-            phoneNumber={phoneNumber}
-            address={address}
             handleEdit={handleEdit}
             handleDeleteContact={handleDeleteContact}
-            isReviewing={isReviewing}
-            setName={setName}
-            setPhoneNumber={setPhoneNumber}
-            setAddress={setAddress}
-            setImage={setImage}
-            isOpen={isOpen}
-            onOpen={onOpen}
-            onClose={onClose}
-            userMessages={messages}
+            messages={messages}
           />
         </Container>
-
-        <p>{name}</p>
       </Stack>
     </>
   );
