@@ -10,9 +10,12 @@ export const ContactGrid = ({
   handleEdit,
   handleDeleteContact,
   messages,
+  onOpen,
+  onClose,
+  isOpen,
+  closeModal,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const filteredUsersList = filteredUsers();
 
   return (
     <>
@@ -39,15 +42,16 @@ export const ContactGrid = ({
             </Tr>
           </Thead>
 
-          {filteredUsersList.map((user) => (
-            <ContactTable
-              key={user.id}
-              user={user}
-              handleEdit={handleEdit}
-              handleDeleteContact={handleDeleteContact}
-              messages={messages}
-            />
-          ))}
+          <ContactTable
+            handleEdit={handleEdit}
+            handleDeleteContact={handleDeleteContact}
+            messages={messages}
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onClose={onClose}
+            closeModal={closeModal}
+            filteredUsers={filteredUsers}
+          />
         </Table>
       </TableContainer>
 

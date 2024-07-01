@@ -14,15 +14,12 @@ import {
   Image,
   Card,
   ModalFooter,
-  Spacer,
-  Tag,
-  Box,
 } from "@chakra-ui/react";
 import { GrView } from "react-icons/gr";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 
-export const ViewModal = ({ user, messages }) => {
+export const ViewModal = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const defaultImage =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
@@ -95,14 +92,21 @@ export const ViewModal = ({ user, messages }) => {
                   borderRadius={"50%"}
                   src={user ? user.contactImg_url : ""}
                 />
-                <Text style={{ marginTop: "10px", fontSize: "20px" }}>
+                <Text style={{ marginTop: "15px", fontSize: "22px" }}>
                   {user ? user.name : ""}
                 </Text>
               </Flex>
 
               <Card style={{ padding: "15px", backgroundColor: "#ffffff" }}>
                 <Stack spacing={4}>
-                  <Text style={{ color: "#0066b2" }}>Contact info</Text>
+                  <Text
+                    style={{
+                      color: "#0066b2",
+                      fontSize: "22px",
+                    }}
+                  >
+                    Contact info
+                  </Text>
                   <Flex style={{ align: "center", gap: "10px" }}>
                     <MdOutlinePhone />
                     <Text>{user ? user.phoneNumber : ""}</Text>
@@ -113,51 +117,14 @@ export const ViewModal = ({ user, messages }) => {
                   </Flex>
                 </Stack>
               </Card>
+
               <Card style={{ padding: "15px", backgroundColor: "#ffffff" }}>
                 <Stack spacing={4}>
-                  <Text style={{ color: "#0066b2" }}>Messages</Text>
-                  {messages &&
-                    messages.map((message, index) => (
-                      <Tag
-                        key={index}
-                        style={{
-                          backgroundColor: "transparent",
-                          border: "1px solid #0066b2",
-                          padding: "10px 0",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Flex
-                          style={{
-                            alignItems: "end",
-                            justifyContent: "space-around",
-                            // gap: "20p.x",
-                            margin: "auto",
-                          }}
-                        >
-                          <Box
-                            style={{
-                              alignItems: "start",
-                              float: "left",
-                              // backgroundColor: "black",
-                            }}
-                          >
-                            <Text style={{ color: "#0066b2" }}>
-                              {message.message}
-                            </Text>
-                          </Box>
-                          <Spacer />
-                          <Box>
-                            <Text
-                              style={{ fontSize: "11px", color: "#0066b2" }}
-                            >
-                              {formatDate(message.date)}
-                            </Text>
-                          </Box>
-                        </Flex>
-                      </Tag>
-                    ))}
+                  <Flex style={{ margin: "auto", width: "100%" }}>
+                    <Text style={{ color: "#006A4E", fontSize: "22px" }}>
+                      Messages
+                    </Text>
+                  </Flex>
                 </Stack>
               </Card>
             </Stack>

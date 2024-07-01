@@ -18,20 +18,10 @@ import {
   ModalFooter,
   Image,
   IconButton,
-  Textarea,
-  Tag,
-  // Editable,
-  // EditablePreview,
-  // EditableTextarea,
 } from "@chakra-ui/react";
 import { CiEdit, CiTrash } from "react-icons/ci";
 // @ts-ignore
 export const CreateContactModal = ({
-  handleAddMessage,
-  // handleDeleteMessage,
-  messages,
-  note,
-  setNote,
   image,
   name,
   setName,
@@ -156,77 +146,6 @@ export const CreateContactModal = ({
                   onChange={(e) => setAddress(e.target.value)}
                 />
               </FormControl>
-
-              {isEditing && (
-                <>
-                  <Flex style={{ flexDirection: "column" }}>
-                    <FormControl mt={4}>
-                      <FormLabel>Note</FormLabel>
-                      <Textarea
-                        placeholder="Hello here!"
-                        value={note}
-                        h={"10px"}
-                        onChange={(e) => setNote(e.target.value)}
-                      />
-                    </FormControl>
-
-                    <Button
-                      mt={2}
-                      onClick={handleAddMessage}
-                      style={{ float: "right" }}
-                    >
-                      Add Message
-                    </Button>
-                  </Flex>
-
-                  {messages &&
-                    messages.map((message, index) => (
-                      <Tag key={index} mt={2} mr={3} px={4} py={3}>
-                        {/*<EditablePreview />*/}
-                        <Flex style={{ flexDirection: "column" }}>
-                          {/*<EditableTextarea />*/}
-                          <Flex
-                            style={{
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <span style={{ color: "#0066b2" }}>
-                              {message.message}
-                            </span>
-                            {/*<span*/}
-                            {/*  onClick={() => handleDeleteMessage(index)}*/}
-                            {/*  style={{*/}
-                            {/*    marginLeft: "10px",*/}
-                            {/*    fontSize: "18px",*/}
-                            {/*    cursor: "pointer",*/}
-                            {/*    textAlign: "end",*/}
-                            {/*    color: "red",*/}
-                            {/*  }}*/}
-                            {/*>*/}
-                            {/*  &times;*/}
-                            {/*</span>*/}
-                          </Flex>
-                          <p
-                            style={{
-                              fontSize: "10px",
-                              textAlign: "end",
-                              marginTop: "4px",
-                            }}
-                          >
-                            {new Date(message.date).toLocaleTimeString(
-                              undefined,
-                              {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              },
-                            )}
-                          </p>
-                        </Flex>
-                      </Tag>
-                    ))}
-                </>
-              )}
 
               <RadioGroup
                 mt={4}

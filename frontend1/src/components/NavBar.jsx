@@ -17,10 +17,6 @@ const Navbar = ({
   image,
   handleCreateContact,
   setFilteredUserInput,
-  handleAddMessage,
-  messages,
-  note,
-  setNote,
   name,
   setName,
   phoneNumber,
@@ -36,6 +32,7 @@ const Navbar = ({
   handleCreate,
   handleEditContact,
   closeModal,
+  user,
 }) => {
   return (
     <>
@@ -78,11 +75,6 @@ const Navbar = ({
                   image={image}
                   handleCreateContact={handleCreateContact}
                   handleEditContact={handleEditContact}
-                  handleAddMessage={handleAddMessage}
-                  // handleDeleteMessage={handleDeleteMessage}
-                  messages={messages}
-                  note={note}
-                  setNote={setNote}
                   gender={gender}
                   setGender={setGender}
                   isEditing={isEditing}
@@ -91,6 +83,7 @@ const Navbar = ({
                   onClose={onClose}
                   handleCreate={handleCreate}
                   closeModal={closeModal}
+                  user={user}
                 />
               </Box>
             </Flex>

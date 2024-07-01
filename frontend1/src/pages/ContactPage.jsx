@@ -24,10 +24,15 @@ export const ContactPage = () => {
   const defaultImage =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png";
   const [image, setImage] = useState(defaultImage);
-  const [messages, setMessages] = useState([]);
-  const [newMessages, setNewMessages] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isReviewing, setIsReviewing] = useState(false);
+  const clearFormFields = () => {
+    setName("");
+    setPhoneNumber("");
+    setAddress("");
+    setGender("");
+    setImage(defaultImage);
+  };
+
   const closeModal = () => {
     onClose();
     setName("");
@@ -41,9 +46,9 @@ export const ContactPage = () => {
 
   useEffect(() => {
     getUsers();
-    getNotes();
   }, []);
 
+  // contacts mutation functions
   const getUsers = useCallback(async () => {
     try {
       const res = await fetch(`${BASE_URL}/contacts`);
@@ -58,20 +63,6 @@ export const ContactPage = () => {
   });
   const { data, status } = useQuery("contacts", getUsers);
 
-  const getNotes = useCallback(async () => {
-    try {
-      const res = await fetch(`${BASE_URL}/notes`);
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      setMessages(data);
-    } catch (error) {
-      console.error("another error", error);
-    }
-  });
-  const { data: notesData, status: notesStatus } = useQuery("notes", getNotes);
-
   const addContactMutation = useMutation(
     (data, onClose) => axios.post(`${BASE_URL}/contacts`, data),
     {
@@ -83,36 +74,6 @@ export const ContactPage = () => {
     },
   );
 
-  const handleCreate = useCallback(() => {
-    setIsEditing(false);
-    onOpen();
-    setName("");
-    setPhoneNumber("");
-    setAddress("");
-    setGender("");
-    setImage(defaultImage);
-  });
-
-  const handleCreateContact = async (event) => {
-    event.preventDefault();
-    setIsEditing(false);
-    const data = {
-      name: name,
-      phoneNumber: phoneNumber,
-      address: address,
-      gender: gender,
-      contactImg_url: image,
-    };
-    addContactMutation.mutateAsync(data);
-    setUsers([...users, data]);
-    onClose();
-    setName("");
-    setPhoneNumber("");
-    setAddress("");
-    setGender("");
-    setImage(defaultImage);
-  };
-
   const updateContactMutation = useMutation(
     (updatedContact) =>
       axios.put(`${BASE_URL}/contacts/${updatedContact.id}`, updatedContact),
@@ -120,73 +81,13 @@ export const ContactPage = () => {
       onSuccess: () => {
         queryClient.invalidateQueries("contacts").then((r) => {});
         toast({ title: "Contact updated.", status: "success" });
+        onClose();
       },
       onError: (error) => {
         console.log("error update", error);
       },
     },
   );
-
-  const addNoteMutation = useMutation(
-    (data) => {
-      console.log("Sending note data:", data);
-      return axios.post(`${BASE_URL}/notes`, data);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("notes").then((r) => {});
-        toast({ title: "Note created.", status: "success" });
-      },
-      onError: (error) => {
-        console.error("Error creating note", error.response.data);
-      },
-    },
-  );
-
-  const handleEdit = (user) => {
-    onOpen();
-    setIsEditing(true);
-    setTempContact(user);
-    setName(user?.name);
-    setPhoneNumber(user?.phoneNumber);
-    setAddress(user?.address);
-    setGender(user?.gender);
-    setImage(user?.contactImg_url);
-    const userMessages = messages.filter(
-      (message) => message.contact_id === user.id,
-    );
-    console.log("userMessages", userMessages);
-    setMessages(userMessages);
-  };
-
-  const handleEditContact = async (event) => {
-    event.preventDefault();
-    const updatedContact = {
-      ...tempContact,
-      name: name,
-      phoneNumber: phoneNumber,
-      address: address,
-      gender: gender,
-      contactImg_url: image,
-    };
-    updateContactMutation.mutate(updatedContact);
-
-    const noteData = newMessages.map((message) => ({
-      message: message.message,
-      date: message.date,
-      contact_id: updatedContact.id,
-    }));
-    addNoteMutation.mutate(noteData);
-    onClose();
-    setName("");
-    setPhoneNumber("");
-    setAddress("");
-    setGender("");
-    setImage(defaultImage);
-    setMessages([...messages, ...newMessages]);
-    console.log("messages", messages);
-    setMessages(userMessages);
-  };
 
   const deleteContatMutation = useMutation(
     (id) => axios.delete(`${BASE_URL}/contacts/${id}`),
@@ -201,41 +102,57 @@ export const ContactPage = () => {
     },
   );
 
-  // const deleteNoteMutation = useMutation(
-  //   (id) => axios.delete(`${BASE_URL}/notes/${id}`),
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries("notes").then((r) => {});
-  //       toast({ title: "Note deleted.", status: "success" });
-  //     },
-  //     onError: (error) => {
-  //       console.log("error delete", error);
-  //     },
-  //   },
-  // );
+  const handleCreate = useCallback(() => {
+    setIsEditing(false);
+    onOpen();
+    clearFormFields();
+  });
+
+  const handleCreateContact = async (event) => {
+    event.preventDefault();
+    setIsEditing(false);
+    const data = {
+      name: name,
+      phoneNumber: phoneNumber,
+      address: address,
+      gender: gender,
+      contactImg_url: image,
+    };
+    console.log("data", data);
+    addContactMutation.mutateAsync(data);
+    setUsers([...users, data]);
+    onClose();
+    clearFormFields();
+  };
+
+  const handleEdit = (user) => {
+    onOpen();
+    setIsEditing(true);
+    setTempContact(user);
+    setName(user?.name);
+    setPhoneNumber(user?.phoneNumber);
+    setAddress(user?.address);
+    setGender(user?.gender);
+    setImage(user?.contactImg_url);
+  };
+
+  const handleEditContact = async (event) => {
+    event.preventDefault();
+    const updatedContact = {
+      ...tempContact,
+      name: name,
+      phoneNumber: phoneNumber,
+      address: address,
+      gender: gender,
+      contactImg_url: image,
+    };
+    updateContactMutation.mutate(updatedContact);
+    onClose();
+    clearFormFields();
+  };
 
   const handleDeleteContact = async (id) => {
     deleteContatMutation.mutate(id);
-    // deleteNoteMutation.mutate(id);
-  };
-
-  const handleAddMessage = (contact_id) => {
-    if (note.trim() !== "" && !messages.includes(note.trim())) {
-      const newMessage = {
-        message: note.trim(),
-        date: new Date().toISOString(),
-        contact_id: contact_id,
-      };
-      setNewMessages([...newMessages, newMessage]);
-      console.log("newMessages", newMessages);
-      setMessages([...messages, newMessages]);
-      setNote("");
-    }
-  };
-
-  const handleDeleteMessage = (index) => {
-    const newMessages = messages.filter((_, i) => i !== index);
-    setMessages(newMessages);
   };
 
   const handleChangeImg = (event) => {
@@ -279,17 +196,13 @@ export const ContactPage = () => {
           handleCreateContact={handleCreateContact}
           handleEditContact={handleEditContact}
           setFilteredUserInput={setFilteredUserInput}
-          handleAddMessage={handleAddMessage}
-          handleDeleteMessage={handleDeleteMessage}
-          messages={messages}
-          note={note}
-          setNote={setNote}
           isEditing={isEditing}
           isOpen={isOpen}
           onOpen={onOpen}
           onClose={onClose}
           handleCreate={handleCreate}
           closeModal={closeModal}
+          user={tempContact}
         />
 
         <Container
@@ -300,7 +213,10 @@ export const ContactPage = () => {
             filteredUsers={filteredUsers}
             handleEdit={handleEdit}
             handleDeleteContact={handleDeleteContact}
-            messages={messages}
+            isOpen={isOpen}
+            onOpen={onOpen}
+            onClose={onClose}
+            closeModal={closeModal}
           />
         </Container>
       </Stack>
