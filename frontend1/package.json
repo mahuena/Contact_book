@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.5",
     "@google-cloud/translate": "^8.3.0",
     "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
     "formik": "^2.4.6",
     "framer-motion": "^11.2.10",
     "i18next": "^23.11.5",
